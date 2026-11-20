@@ -289,3 +289,22 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .schedule-card .day-row.has-afternoon{border-color:#ead9ac;background:#fffdf8}
 .schedule-card .schedule-source{display:inline-flex;margin:13px 0 3px;padding:10px 13px;border-radius:10px;background:#eaf2f7;text-decoration:none}
 @media(max-width:380px){.schedule-card .day-row{grid-template-columns:75px minmax(0,1fr);gap:6px;padding:9px}.schedule-card .time-chip{font-size:11px;padding:7px 8px}}
+
+/* Grafischer Wochenplan */
+.schedule-card .schedule-intro{font-size:14px;color:var(--muted);margin:0 0 15px}
+.schedule-card .schedule-item{background:#f5f9fc;border:1px solid #d9e5ed;border-radius:16px;margin:11px 0;overflow:hidden}
+.schedule-card .schedule-item summary{padding:17px 18px;font-size:16px}
+.schedule-card .schedule-content{padding:0 12px 14px}
+.schedule-card .week-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.schedule-card .day-card{min-width:0;min-height:132px;padding:11px 8px;border:1px solid #dce7ee;border-top:4px solid #2b83b6;border-radius:12px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.schedule-card .day-card h4{margin:0;color:#24465d;font-size:13px;font-weight:800;text-align:center}
+.schedule-card .period-block{background:#eaf3f9;border-radius:9px;padding:9px 5px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.schedule-card .period-block small{font-size:9px;letter-spacing:.7px;font-weight:900;color:#39708f}
+.schedule-card .period-block strong{font-size:clamp(10px,1.1vw,13px);font-weight:900;color:#124d73;white-space:nowrap;font-variant-numeric:tabular-nums}
+.schedule-card .afternoon-period{background:#fff2d7}
+.schedule-card .afternoon-period small,.schedule-card .afternoon-period strong{color:#865b09}
+.schedule-card .day-card.has-afternoon{border-top-color:#d7a12b}
+.schedule-card .day-card-note{margin-top:auto;text-align:center;font-size:10px;color:#8193a0;padding:5px 0}
+.schedule-card .schedule-source{display:inline-flex;margin:13px 0 3px;padding:10px 13px;border-radius:10px;background:#eaf2f7;text-decoration:none}
+@media(max-width:600px){.schedule-card .week-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.schedule-card .day-card{min-height:128px;padding:11px}.schedule-card .period-block strong{font-size:13px}}
+@media(max-width:350px){.schedule-card .week-grid{grid-template-columns:1fr 1fr}.schedule-card .day-card{padding:9px 6px}.schedule-card .period-block strong{font-size:11px}}
