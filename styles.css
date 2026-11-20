@@ -56,3 +56,16 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .install-help summary{font-weight:800;cursor:pointer;font-size:14px}
 .install-help div{padding-top:8px;color:var(--muted);font-size:13px;line-height:1.55}
 .install-help p{margin:8px 0}
+
+/* Version 26 – offizielles Schullogo und kompakter Startbereich */
+.brand{gap:12px}
+.school-logo{display:block;width:48px;height:48px;object-fit:contain;flex:0 0 48px}
+.brand span:last-child{display:block}
+.welcome{min-height:0;margin:20px 0 18px}
+.welcome-copy{padding:32px 38px 30px}
+.welcome h1{margin:0 0 12px;font-size:clamp(42px,5.2vw,58px);letter-spacing:-2.5px}
+.welcome p{max-width:600px;font-size:17px}
+.text-action{margin-top:15px}
+.welcome-art{display:none}
+@media(min-width:700px){.welcome{min-height:0}.welcome-copy{padding:34px 42px 32px}}
+@media(max-width:600px){.school-logo{width:42px;height:42px;flex-basis:42px}.welcome{min-height:0;margin:16px 0 15px}.welcome-copy{padding:26px 23px}.welcome h1{font-size:44px;letter-spacing:-2px}.welcome p{font-size:15px}.text-action{margin-top:13px}}
