@@ -82,3 +82,68 @@ article.past:before{background:#c8d0d7}
 .agenda-item strong{display:block;font-size:13px;line-height:1.35}.agenda-item p{font-size:11px;color:#74818b;margin:4px 0 0;line-height:1.45}
 .calendar-empty,.calendar-loading{font-size:12px;color:#74818b;background:#fff;border:1px solid #e3eaf0;border-radius:15px;padding:14px}
 @media(max-width:370px){.calendar-card{padding:11px}.calendar-weekdays,.calendar-days{gap:3px}.calendar-day{min-height:38px}}
+
+/* Version 11 – modernes, freundliches Schul-App-Redesign */
+:root{--blue:#064b7d;--yellow:#f4c62f;--leaf:#82b52b;--pink:#e94b91;--ink:#102d49;--muted:#657b8e;--paper:#f2f7fb;--line:#dfeaf2;--shadow:0 16px 42px rgba(11,57,94,.075)}
+body{background:radial-gradient(ellipse at 10% 0%,#e7f3fc 0,transparent 38%),var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif}
+.top{height:78px;background:rgba(255,255,255,.84);border-bottom:1px solid rgba(211,226,238,.8);padding-left:max(22px,calc((100vw - 900px)/2));padding-right:max(22px,calc((100vw - 900px)/2))}
+.logo{width:52px;height:52px;border:0;border-radius:17px;background:#f0f6fb;box-shadow:inset 0 0 0 1px #e2edf5}
+.top b{font-size:16px;color:#073d68}.top small{font-size:11px}
+.top button{border:0;border-radius:50%;background:#eaf3fa;color:var(--blue);font-size:24px;box-shadow:0 4px 14px rgba(0,63,117,.07)}
+main{max-width:900px;padding:0 24px}
+#news{padding-top:24px}
+.heading{margin-bottom:16px}
+.heading small{font-size:9px;letter-spacing:2px;color:#4d7694}
+.heading h2{font-size:27px;letter-spacing:-1.1px;color:#0b3152}
+.heading span{background:#e9f3fb;color:#075184;border:1px solid #d8e9f5;font-size:10px}
+article{display:grid;grid-template-columns:1fr;gap:0;border:1px solid #e1ebf3;border-radius:23px;padding:20px 21px;margin:12px 0;background:rgba(255,255,255,.94);box-shadow:0 10px 30px rgba(10,57,94,.055)}
+article:before{top:18px;bottom:18px;width:4px;background:linear-gradient(var(--yellow),var(--leaf))}
+article .meta{color:#7890a3;font-size:9px;letter-spacing:.8px}
+article h3{font-size:19px;color:#102f4c}
+article p{font-size:13px;color:#5f7588}
+article a{justify-self:start;border-radius:12px;background:#eaf4fb;color:#075184;padding:9px 13px}
+article .news-state{background:#fdeaf2;color:#b72c69}
+article.past{background:#fff;border-color:#e6edf2}
+.more{font-size:12px;color:#075184;margin:15px 3px 4px}
+.hero{margin:26px 0 35px;border-radius:28px;padding:27px 26px 29px;background:linear-gradient(118deg,#063c68 0%,#08649a 58%,#2585b3 100%);box-shadow:0 18px 40px rgba(0,65,111,.18)}
+.hero:before{width:250px;height:250px;right:-75px;top:-135px;background:rgba(244,198,47,.13);border:1px solid rgba(255,255,255,.19)}
+.hero:after{width:155px;height:155px;right:50px;bottom:-115px;background:rgba(130,181,43,.3)}
+.hero small{color:#ffe27a;font-size:9px;letter-spacing:2px}
+.hero h1{font-size:clamp(30px,6vw,43px);line-height:1.04;letter-spacing:-1.5px;margin:10px 0}
+.hero p{font-size:13px;color:#e4f3fb;max-width:420px}
+.calendar-section{margin-bottom:38px}
+.calendar-card{border:1px solid #deebf4;border-radius:24px;padding:17px;background:rgba(255,255,255,.95);box-shadow:var(--shadow)}
+.calendar-toolbar h3{font-size:18px;color:#0b3152}
+.calendar-toolbar button{border:0;background:#eaf3fa;color:#075184;border-radius:13px;font-size:25px}
+.calendar-weekdays span{color:#7890a3;font-size:10px}
+.calendar-day{background:#f3f7fa;color:#294a65;border-radius:13px;min-height:44px;font-size:12px}
+.calendar-day.outside{background:transparent;color:#c2cdd6}
+.calendar-day.today{outline:2px solid #0a6095}
+.calendar-day.selected{background:#075184;color:white}
+.calendar-day.has-event:after{background:var(--pink)}
+.calendar-legend{color:#73899b}
+.calendar-legend i{background:var(--pink)}
+.agenda-heading h3{color:#103655}
+.agenda-heading a{color:#075184}
+.agenda-item{border:1px solid #e2ebf2;border-radius:17px;box-shadow:0 5px 16px rgba(11,57,94,.035)}
+.agenda-date{background:#fff4ce;color:#17476b;border-radius:12px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.grid a{min-height:142px;border-radius:22px;padding:17px;background:rgba(255,255,255,.96);border:1px solid #e1ebf3;box-shadow:0 8px 22px rgba(11,57,94,.045)}
+.grid a:after{content:"↗";color:#91a7b8}
+.grid i{width:48px;height:48px;border:0;border-radius:16px;margin-bottom:13px;background:#eaf4fb;color:#075184}
+.grid a:nth-child(4n+2) i{background:#fff5d5;color:#bd8a00}
+.grid a:nth-child(4n+3) i{background:#edf7e4;color:#64921b}
+.grid a:nth-child(4n) i{background:#fdebf3;color:#d83c82}
+.grid b{font-size:14px;color:#153652}
+.grid small{font-size:11px;color:#71879a}
+.grid a:hover{transform:translateY(-4px);border-color:#c5ddeb;box-shadow:0 14px 28px rgba(11,57,94,.09)}
+.contact{border:1px solid #dce9f2;border-radius:22px;background:linear-gradient(120deg,#e8f3fb,#f5f9fc);padding:21px}
+.contact .emoji{background:#fff;color:#075184;border-radius:16px}
+.contact small{color:#527a98}
+nav{height:80px;background:rgba(255,255,255,.9);border-top:1px solid #e0eaf1;box-shadow:0 -8px 28px rgba(11,57,94,.045)}
+nav a{color:#8295a4;border-radius:15px}
+nav a:first-child,nav a:focus{background:#eaf3fa;color:#075184}
+footer{color:#8093a2}
+footer a{color:#075184}
+@media(min-width:600px){main{padding:0 30px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:34px 34px 36px;margin-top:30px}article{padding:23px 25px}}
+@media(max-width:370px){main{padding:0 15px}.grid{gap:9px}.grid a{min-height:132px;padding:14px}}
