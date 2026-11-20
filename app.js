@@ -249,3 +249,28 @@ async function loadSchoolInfoPages(){
  }));
 }
 loadSchoolInfoPages();
+
+/* Anonyme App-Nutzungsstatistik: nur aggregierte Ereignisse, keine Nutzerkennungen */
+(function(){
+ const endpoint='https://grundschule-hoefingen.de/wp-json/schulapp/v1/event';
+ function countEvent(event){
+  try{
+   const body=JSON.stringify({event});
+   const payload=new Blob([body],{type:'text/plain;charset=UTF-8'});
+   if(navigator.sendBeacon){navigator.sendBeacon(endpoint,payload);}
+   else{fetch(endpoint,{method:'POST',mode:'no-cors',body:payload,keepalive:true}).catch(()=>{});}
+  }catch(_){}
+ }
+ countEvent('app_open');
+ const eventBySection={
+  'foerderverein':'foerderverein',
+  'unterrichtszeiten-info':'schedule',
+  'betreuung-info':'care',
+  'formulare-info':'forms'
+ };
+ document.querySelectorAll('.info-section-item').forEach(section=>{
+  section.addEventListener('toggle',()=>{if(section.open&&eventBySection[section.id])countEvent(eventBySection[section.id]);});
+ });
+ document.querySelectorAll('nav a[href="#news"]').forEach(a=>a.addEventListener('click',()=>countEvent('news')));
+ document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('click',()=>countEvent('calendar')));
+})();
