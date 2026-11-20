@@ -23,7 +23,7 @@ async function loadNews(){
    link.href=p.link;link.target='_blank';link.rel='noopener';link.textContent='Beitrag lesen ↗';
    content.append(meta,h,x,link);card.append(content);list.append(card);
   });
-  status.hidden=true;document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.';
+  status.hidden=true;
  }catch(e){status.textContent=navigator.onLine?'Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.':'Keine Internetverbindung – die Neuigkeiten können gerade nicht geladen werden.';list.replaceChildren()}
 }
 document.querySelector('#refresh').addEventListener('click',()=>{loadNews();loadSchoolCalendar(true)});loadNews();
