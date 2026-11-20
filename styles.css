@@ -210,3 +210,8 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .fv-links a:last-child{border-bottom:0}
 .fv-links a b{font-size:16px}
 @media(max-width:420px){.foerderverein-card{padding:15px}.fv-highlights{grid-template-columns:1fr 1fr}.fv-activity-grid{grid-template-columns:1fr}.fv-highlight{padding:12px}.fv-highlight strong{font-size:13px}}
+
+/* Version 37 – Förderverein als aufklappbarer Unterpunkt */
+.info-section-item>.foerderverein-card{padding:15px 1px 1px}
+.foerderverein-card{box-shadow:none;border:0;border-radius:0;background:transparent}
+@media(max-width:600px){.info-section-item>.foerderverein-card{padding-top:14px}}
