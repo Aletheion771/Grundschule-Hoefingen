@@ -107,3 +107,7 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .info-call.secondary{background:#f1f4f6;color:#526a79}
 .info-note{font-size:12px!important;color:#718391!important}
 @media(max-width:600px){.info-card{padding:17px}.info-card h3{font-size:17px}}
+
+/* Version 29 – Informationen zur Schulkindbetreuung */
+.info-section{scroll-margin-top:100px}
+.info-card a:not(.info-call){color:var(--blue);font-weight:700}
