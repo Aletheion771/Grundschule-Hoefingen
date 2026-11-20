@@ -10,12 +10,13 @@ async function loadNews(){
   const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error('Keine Beiträge');
   list.replaceChildren();posts.sort((a,b)=>new Date(b.date)-new Date(a.date));
   posts.forEach((p,index)=>{
-   const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title+' '+excerpt),past=Boolean(event&&event<new Date());
+   const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title),past=Boolean(event&&event<new Date());
+   const published=new Date(p.date),ageDays=(Date.now()-published.getTime())/86400000,isNew=ageDays>=0&&ageDays<=14;
    const card=document.createElement('article'),meta=document.createElement('div'),content=document.createElement('div'),h=document.createElement('h3'),x=document.createElement('p'),link=document.createElement('a');
    const media=p._embedded?.['wp:featuredmedia']?.[0],sizes=media?.media_details?.sizes||{},imageUrl=sizes.medium_large?.source_url||sizes.large?.source_url||media?.source_url;
    if(index===0)card.classList.add('featured');if(past)card.classList.add('past');
    meta.className='meta';meta.textContent=date(p.date);
-   if(index<2&&!past){const tag=document.createElement('span');tag.className='news-state news-new';tag.textContent='NEU';meta.append(tag)}
+   if(isNew){const tag=document.createElement('span');tag.className='news-state news-new';tag.textContent='NEU';meta.append(tag)}
    if(past){const tag=document.createElement('span');tag.className='news-state';tag.textContent='VERGANGEN';meta.append(tag)}
    if(imageUrl){const image=document.createElement('img');image.className='news-image';image.src=imageUrl;image.alt=plain(media?.alt_text)||title;image.loading=index<2?'eager':'lazy';image.decoding='async';image.addEventListener('error',()=>image.remove(),{once:true});card.append(image)}
    content.className='news-content';h.textContent=title;x.textContent=excerpt;
