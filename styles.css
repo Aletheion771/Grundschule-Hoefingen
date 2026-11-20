@@ -162,3 +162,20 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
  .info-section-item>.info-section-summary h2,.info-section-item>.info-section-summary .section-head h2{font-size:19px!important;line-height:1.3!important}
  .info-section-item>.info-card{margin:0 14px 14px;padding-top:14px}
 }
+
+/* Version 35 – Stundenplan übersichtlich nach Tagen */
+.schedule-card .schedule-notice{padding:13px 15px;border-left:4px solid #e0ae24;border-radius:10px;background:#fff8e6;margin:0 0 14px}
+.schedule-card .schedule-notice strong{display:block;color:#6e5415;font-size:14px;margin-bottom:4px}
+.schedule-card .schedule-notice p{margin:0;color:#665b40;font-size:13px;line-height:1.5}
+.schedule-intro{font-size:13px;color:var(--muted);margin:0 0 12px}
+.schedule-card .schedule-item{margin:9px 0;background:#f8fafc;border-color:#dce6ec}
+.schedule-card .schedule-item summary{padding:15px 16px;font-size:16px}
+.schedule-card .schedule-content{padding:0 12px 12px}
+.day-grid{display:grid;gap:7px}
+.day-row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:center;padding:10px 11px;border-radius:10px;background:#fff;border:1px solid #e7edf1}
+.day-row>b{font-size:13px;color:#24445b}
+.day-row>span{font-size:13px;line-height:1.45;color:#334e60;font-weight:700}
+.day-row em{display:block;margin:4px 0 2px;color:#8a5a00;font-size:10px;font-style:normal;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.day-row.has-afternoon{background:#fffdf7;border-color:#f0e2b8}
+.schedule-source{display:inline-flex;margin:12px 0 2px;font-size:13px;font-weight:800;color:var(--blue);text-decoration:none}
+@media(max-width:380px){.day-row{grid-template-columns:78px minmax(0,1fr);gap:7px;padding:9px}.day-row>b,.day-row>span{font-size:12px}}
