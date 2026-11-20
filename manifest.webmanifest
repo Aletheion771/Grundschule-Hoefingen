@@ -9,7 +9,7 @@
   "theme_color": "#0b4772",
   "icons": [
     {
-      "src": "./school-logo.jpg?v=1",
+      "src": "./school-logo.jpg?v=2",
       "sizes": "256x256",
       "type": "image/jpeg",
       "purpose": "any"

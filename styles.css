@@ -441,3 +441,7 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .calendar-day.selected.has-association-event:after{background:#fff}
 :root[data-theme="dark"] .calendar-day.has-association-event{background:#294b6b;color:#c7e2ff}
 :root[data-theme="dark"] .calendar-day.selected.has-association-event{background:var(--blue);color:#fff}
+
+/* Betaversion label in the app header */
+.beta-label{margin-left:auto;margin-right:14px;padding:5px 10px;border:1px solid #f0d58a;border-radius:999px;background:#fff6d9;color:#76540b;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap}
+@media(max-width:420px){.beta-label{font-size:10px;padding:4px 7px;margin-right:8px}}
