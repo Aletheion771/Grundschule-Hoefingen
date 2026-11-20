@@ -350,3 +350,16 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 :root[data-theme="dark"] .info-card,:root[data-theme="dark"] .schedule-card .day-card,:root[data-theme="dark"] .schedule-card .schedule-item{background:#1d303d}
 :root[data-theme="dark"] .more-link b,:root[data-theme="dark"] .settings-card h3,:root[data-theme="dark"] .setting-group>b{color:#e4edf4}
 @media(max-width:600px){.care-hours>div{grid-template-columns:1fr;gap:3px}.care-holiday{align-items:flex-start;flex-direction:column}.care-time-list span{grid-template-columns:1fr}.care-time-list strong{text-align:left}}
+
+
+/* Schulferien im Kalender farblich hervorheben */
+.calendar-day.has-holiday{background:#fff0d9;color:#87520b;font-weight:900}
+.calendar-day.has-holiday:after{background:#d58a22}
+.calendar-day.selected.has-holiday{background:var(--blue);color:#fff}
+.calendar-day.selected.has-holiday:after{background:#fff}
+.agenda-item.holiday-item{background:#fffaf1;border-color:#f0d7ad;border-left:4px solid #d58a22}
+.agenda-date.holiday-date{background:#ffedcf;color:#89530c}
+.event-category.holiday-category{background:#ffedcf;color:#89530c}
+.calendar-legend .holiday-legend i{background:#d58a22}
+:root[data-theme="dark"] .agenda-item.holiday-item{background:#342f27;border-color:#665039}
+:root[data-theme="dark"] .agenda-date.holiday-date,:root[data-theme="dark"] .event-category.holiday-category{background:#554127;color:#ffd99e}
