@@ -368,3 +368,11 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 /* Kopfzeile bleibt beim Scrollen sichtbar */
 .top{position:sticky!important;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(18px)}
 :root[data-theme="dark"] .top{background:rgba(20,35,45,.96)}
+
+
+/* Gruene Schultermine: hellgruen hinterlegte Agenda-Karten, analog zu den Ferienkarten */
+.agenda-item:not(.holiday-item){background:#f5f9e9;border-color:#dce8bd;border-left:4px solid #a4c83e}
+.agenda-date:not(.holiday-date){background:#edf5d5;color:#49651a}
+.event-category:not(.holiday-category){background:#edf5d5;color:#49651a}
+:root[data-theme="dark"] .agenda-item:not(.holiday-item){background:#293526;border-color:#52613b}
+:root[data-theme="dark"] .agenda-date:not(.holiday-date),:root[data-theme="dark"] .event-category:not(.holiday-category){background:#3e4c2e;color:#d9edaa}
