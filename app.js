@@ -55,70 +55,65 @@ function makeDate(day,month,year){const d=new Date(year,month,day);return d.getF
 function parseSchoolEvents(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
  const root=doc.querySelector('.entry-content,.page-content,main,article')||doc.body;
- const lines=(root.innerText||root.textContent||'').split(/\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(Boolean);
  const found=[];
  let activeMonth=null,activeYear=new Date().getFullYear(),previousMonth=new Date().getMonth();
- const weekday='(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?';
- const monthHeading=/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+(20\d{2}))?$/i;
- function inferredYear(month){
+ const monthNames=['januar','februar','märz','april','mai','juni','juli','august','september','oktober','november','dezember'];
+ function yearFor(month){
   if(activeMonth!==null)return month<activeMonth-6?activeYear+1:month>activeMonth+6?activeYear-1:activeYear;
-  const now=new Date(),currentMonth=now.getMonth();
-  return month<currentMonth-6?now.getFullYear()+1:month>currentMonth+6?now.getFullYear()-1:now.getFullYear();
+  const now=new Date(),cm=now.getMonth();
+  return month<cm-6?now.getFullYear()+1:month>cm+6?now.getFullYear()-1:now.getFullYear();
  }
- for(const line of lines){
-  const heading=line.match(monthHeading);
+ function add(day,month,year,title,endDay=null,endMonth=null){
+  const first=makeDate(day,month,year),last=endDay===null?first:makeDate(endDay,endMonth, endMonth<month?year+1:year);
+  title=title.replace(/^\s*[|,:;–—-]\s*/,'').replace(/\s+/g,' ').trim();
+  if(first&&last&&last>=first&&title)found.push({start:first,end:last,title,source:'Schulhomepage'});
+ }
+ // WordPress currently renders dates in headings and individual list/table/text blocks.
+ // Read each content block independently so one date cannot swallow the next event.
+ const blocks=[...root.querySelectorAll('h2,h3,h4,li,tr,p')].filter(el=>!el.parentElement.closest('li'));
+ const source=blocks.length?blocks:[root];
+ for(const el of source){
+  const line=(el.tagName==='TR'?[...el.querySelectorAll('th,td')].map(c=>c.textContent).join(' | '):el.textContent||'').replace(/\s+/g,' ').trim();
+  if(!line)continue;
+  const heading=line.match(/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+(20\d{2}))?$/i);
   if(heading){
-   activeMonth=monthMap.get(heading[1].toLowerCase());
+   activeMonth=monthNames.indexOf(heading[1].toLowerCase());
    if(heading[2])activeYear=Number(heading[2]);
    else if(activeMonth<previousMonth-6)activeYear++;
    previousMonth=activeMonth;
    continue;
   }
-  // Datumsbereiche zuerst behandeln, z.B. "08. – 10.06. ..."
-  const range=new RegExp('^'+weekday+'(\\d{1,2})\\.\\s*[–—-]\\s*(\\d{1,2})\\.(?:\\s*(\\d{1,2})\\.)?\\s*(?:\\|\\s*)?(.*)$','i').exec(line);
-  if(range&&range[4]&&activeMonth!==null){
+  const range=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[–—-]\s*(\d{1,2})\.(?:\s*(\d{1,2})\.)?\s*(?:\|\s*)?(.*)$/i.exec(line);
+  if(range&&activeMonth!==null){
    const endMonth=range[3]!==undefined?Number(range[3])-1:activeMonth;
-   const year=inferredYear(activeMonth),endYear=endMonth<activeMonth?year+1:year;
-   const first=makeDate(Number(range[1]),activeMonth,year),last=makeDate(Number(range[2]),endMonth,endYear);
-   if(first&&last&&last>=first)found.push({start:first,end:last,title:range[4].trim(),source:'Schulhomepage'});
+   add(Number(range[1]),activeMonth,yearFor(activeMonth),range[4],Number(range[2]),endMonth);
    continue;
   }
-  // Explizite Datumsangaben DD.MM. unabhängig von Monatsüberschriften erfassen.
-  const datePattern=new RegExp(weekday+'(\\d{1,2})\\.\\s*(\\d{1,2})\\.','gi');
-  const matches=[...line.matchAll(datePattern)];
+  const explicit=/(\d{1,2})\.(\d{1,2})\.(?:(\d{2,4})\.?)?/g;
+  const matches=[...line.matchAll(explicit)];
   if(matches.length){
    for(let i=0;i<matches.length;i++){
     const m=matches[i],day=Number(m[1]),month=Number(m[2])-1;
     if(month<0||month>11)continue;
+    let year=m[3]?Number(m[3]):yearFor(month);if(year<100)year+=2000;
     const titleStart=m.index+m[0].length,next=matches[i+1]?.index??line.length;
-    const title=line.slice(titleStart,next).replace(/^\s*[|,:;–—-]\s*/,'').trim();
-    if(!title)continue;
-    const year=inferredYear(month),date=makeDate(day,month,year);
-    if(date)found.push({start:date,end:date,title,source:'Schulhomepage'});
+    add(day,month,year,line.slice(titleStart,next));
    }
    continue;
   }
-  // Einträge mit Tag ohne Monatsangabe innerhalb einer Monatsüberschrift.
   if(activeMonth!==null){
-   const single=new RegExp('^'+weekday+'(\\d{1,2})\\.\\s*(?:\\|\\s*)?(.+)$','i').exec(line);
-   if(single){
-    const date=makeDate(Number(single[1]),activeMonth,inferredYear(activeMonth));
-    if(date)found.push({start:date,end:date,title:single[2].trim(),source:'Schulhomepage'});
-   }
+   const single=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*(?:\|\s*)?(.+)$/i.exec(line);
+   if(single)add(Number(single[1]),activeMonth,yearFor(activeMonth),single[2]);
   }
  }
- // Tabellen mit Datum in der ersten und Beschreibung in der zweiten Spalte.
- if(!found.length){
-  for(const row of doc.querySelectorAll('tr')){
-   const cells=[...row.querySelectorAll('th,td')].map(c=>plain(c.textContent));
-   if(cells.length<2)continue;
-   const m=cells[0].match(/(\d{1,2})\.(\d{1,2})\.(\d{2,4})?/);
-   if(!m)continue;
-   let year=m[3]?Number(m[3]):inferredYear(Number(m[2])-1);
-   if(year<100)year+=2000;
-   const first=makeDate(Number(m[1]),Number(m[2])-1,year);
-   if(first)found.push({start:first,end:first,title:cells.slice(1).join(' · '),source:'Schulhomepage'});
-  }
+ // If the page uses a two-column table with date in the first cell, process each row independently.
+ for(const row of root.querySelectorAll('tr')){
+  const cells=[...row.querySelectorAll('th,td')].map(c=>c.textContent.replace(/\s+/g,' ').trim());
+  if(cells.length<2)continue;
+  const m=cells[0].match(/(\d{1,2})\.(\d{1,2})\.(?:(\d{2,4})\.?)?/);
+  if(!m)continue;
+  let year=m[3]?Number(m[3]):yearFor(Number(m[2])-1);if(year<100)year+=2000;
+  add(Number(m[1]),Number(m[2])-1,year,cells.slice(1).join(' · '));
  }
  const unique=new Map();
  for(const e of found)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);
