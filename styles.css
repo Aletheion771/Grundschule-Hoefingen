@@ -244,3 +244,9 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 /* Dynamischer Förderverein-Inhalt */
 .fv-sync-status{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:11px;color:#718391}
 .fv-dynamic-intro p{font-size:14px;line-height:1.65;color:#536b7c;margin:0 0 11px}
+
+/* Status der dynamisch geladenen Schul-Informationsseiten */
+.source-sync-status{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:11px;color:#718391}
+.info-section-item .info-card[data-dynamic-source] h2,.info-section-item .info-card[data-dynamic-source] h3{margin:14px 0 7px}
+.info-section-item .info-card[data-dynamic-source] p,.info-section-item .info-card[data-dynamic-source] li{font-size:14px;line-height:1.6;color:#536b7c}
+.info-section-item .info-card[data-dynamic-source="forms"] a{display:inline-flex;margin:5px 0;padding:10px 12px;border-radius:10px;background:#eaf2f7;color:#155b8b;text-decoration:none;font-weight:800}
