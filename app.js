@@ -24,7 +24,7 @@ async function loadNews(){
    content.append(meta,h,x,link);card.append(content);list.append(card);
   });
   status.hidden=true;document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.';
- }catch(e){status.textContent='Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.';list.replaceChildren()}
+ }catch(e){status.textContent=navigator.onLine?'Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.':'Keine Internetverbindung – die Neuigkeiten können gerade nicht geladen werden.';list.replaceChildren()}
 }
 document.querySelector('#refresh').addEventListener('click',()=>{loadNews();loadSchoolCalendar(true)});loadNews();
 const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
@@ -117,3 +117,9 @@ document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('
 document.querySelector('nav a[href="#"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'));window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelector('nav a[href="#news"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#news'));document.querySelector('#news').scrollIntoView({behavior:'smooth',block:'start'})});
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=22',{updateViaCache:'none'}).catch(()=>{}));
+
+const connectionHint=document.querySelector('#connection-hint');
+function updateConnectionHint(){if(!connectionHint)return;connectionHint.hidden=navigator.onLine;connectionHint.textContent='Du bist offline. Nachrichten und aktuelle Termine benötigen eine Internetverbindung; bereits geladene App-Inhalte bleiben teilweise verfügbar.'}
+window.addEventListener('online',()=>{updateConnectionHint();loadNews();if(calendarState.loaded)loadSchoolCalendar(true)});
+window.addEventListener('offline',updateConnectionHint);
+updateConnectionHint();
