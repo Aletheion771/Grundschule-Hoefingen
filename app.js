@@ -170,6 +170,13 @@ const googleScript=document.createElement('script');
 googleScript.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
 googleScript.async=true;
 document.head.appendChild(googleScript);
+function applyLogo(){
+ const choice=localStorage.getItem('gs-logo')||'school';
+ const logo=document.querySelector('.brand .school-logo');
+ if(logo){logo.src=choice==='community'?'./logo-alternativ.webp':'https://grundschule-hoefingen.de/wp-content/uploads/2023/03/logo-gsh_web-300x281.png';}
+ document.querySelectorAll('[data-logo-choice]').forEach(b=>b.classList.toggle('active',b.dataset.logoChoice===choice));
+}
+document.querySelectorAll('[data-logo-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-logo',b.dataset.logoChoice);applyLogo()}));
 function applyTheme(){
  const choice=localStorage.getItem('gs-theme')||'system';
  const dark=choice==='dark'||(choice==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -179,7 +186,7 @@ function applyTheme(){
 document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-theme',b.dataset.themeChoice);applyTheme()}));
 document.querySelectorAll('[data-language-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-language',b.dataset.languageChoice);applyTranslations();document.querySelectorAll('[data-language-choice]').forEach(x=>x.classList.toggle('active',x.dataset.languageChoice===b.dataset.languageChoice))}));
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if((localStorage.getItem('gs-theme')||'system')==='system')applyTheme()});
-applyTheme();applyTranslations();
+applyTheme();applyTranslations();applyLogo();
 document.querySelectorAll('[data-language-choice]').forEach(b=>b.classList.toggle('active',b.dataset.languageChoice===(localStorage.getItem('gs-language')||'de')));
 
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=22',{updateViaCache:'none'}).catch(()=>{}));
