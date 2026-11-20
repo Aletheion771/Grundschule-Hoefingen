@@ -425,3 +425,11 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .calendar-day.selected.has-school-event:after{background:#fff}
 :root[data-theme="dark"] .calendar-day.has-school-event{background:#3e4c2e;color:#d9edaa}
 :root[data-theme="dark"] .calendar-day.selected.has-school-event{background:var(--blue);color:#fff}
+
+/* Förderverein-Termine: blau zur klaren Unterscheidung von Schulterminen */
+.agenda-item.association-item{background:#eef6ff;border-color:#c8ddf5;border-left:4px solid #2878c7}
+.agenda-date.association-date{background:#dcecff;color:#155b9b}
+.event-category.association-category{background:#dcecff;color:#155b9b}
+.calendar-day.has-association-event:after{background:#2878c7}
+:root[data-theme="dark"] .agenda-item.association-item{background:#203448;border-color:#315575}
+:root[data-theme="dark"] .agenda-date.association-date,:root[data-theme="dark"] .event-category.association-category{background:#294b6b;color:#c7e2ff}
