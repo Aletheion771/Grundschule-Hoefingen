@@ -40,5 +40,11 @@ async function loadSchoolCalendar(){
 }
 document.querySelector('#month-prev')?.addEventListener('click',()=>{calendarState.month.setMonth(calendarState.month.getMonth()-1);calendarState.selected=new Date(calendarState.month);renderCalendar()});
 document.querySelector('#month-next')?.addEventListener('click',()=>{calendarState.month.setMonth(calendarState.month.getMonth()+1);calendarState.selected=new Date(calendarState.month);renderCalendar()});
-renderCalendar();loadSchoolCalendar();
+renderCalendar();
+let calendarLoaded=false;
+function openCalendar(){const section=document.querySelector('#calendar');section.hidden=false;if(!calendarLoaded){calendarLoaded=true;loadSchoolCalendar()}section.scrollIntoView({behavior:'smooth',block:'start'})}
+function closeCalendar(){document.querySelector('#calendar').hidden=true}
+document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCalendar()}));
+document.querySelector('nav a[href="#"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();window.scrollTo({top:0,behavior:'smooth'})});
+document.querySelector('nav a[href="#news"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelector('#news').scrollIntoView({behavior:'smooth',block:'start'})});
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=12',{updateViaCache:'none'}).catch(()=>{}));
