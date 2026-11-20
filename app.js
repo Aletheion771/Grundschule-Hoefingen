@@ -1,8 +1,8 @@
 const api='https://grundschule-hoefingen.de/wp-json/wp/v2/posts?per_page=10&orderby=date&order=desc&_embed=1';
 const list=document.querySelector('#newslist'),status=document.querySelector('#status');
-function plain(s){const d=document.createElement('div');d.innerHTML=s||'';return(d.textContent||'').replace(/\\s+/g,' ').trim()}
+function plain(s){const d=document.createElement('div');d.innerHTML=s||'';return(d.textContent||'').replace(/\s+/g,' ').trim()}
 function date(s){return s?new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(s)):''}
-function eventDate(text){const m=text.match(/\\b(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\b/);if(!m)return null;const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59);return Number.isNaN(d.getTime())?null:d}
+function eventDate(text){const m=text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/);if(!m)return null;const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59);return Number.isNaN(d.getTime())?null:d}
 async function load(){status.hidden=false;status.textContent='Neuigkeiten werden geladen …';try{const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error();const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error();list.replaceChildren();posts.sort((x,y)=>new Date(y.date)-new Date(x.date));for(const p of posts){const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title+' '+excerpt),past=Boolean(event&&event<new Date());const card=document.createElement('article'),meta=document.createElement('div'),h=document.createElement('h3'),x=document.createElement('p'),l=document.createElement('a');if(past)card.classList.add('past');meta.className='meta';meta.textContent='SCHULNACHRICHTEN · veröffentlicht '+date(p.date);if(past){const tag=document.createElement('span');tag.className='news-state';tag.textContent='VERGANGEN';meta.append(tag)}h.textContent=title;x.textContent=excerpt;l.href=p.link;l.target='_blank';l.rel='noopener';l.textContent=past?'Beitrag ansehen ↗':'Beitrag lesen ↗';card.append(meta,h,x,l);list.append(card)}status.hidden=true;document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.'}catch(e){status.textContent='Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.';list.replaceChildren()}}
 document.querySelector('#refresh').addEventListener('click',()=>{load();loadSchoolCalendar()});load();
 
@@ -12,11 +12,11 @@ const weekdays=['Mo','Di','Mi','Do','Fr','Sa','So'];
 function dayKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
 function parseSchoolEvents(html){
  const doc=new DOMParser().parseFromString(html,'text/html'),rows=[...doc.querySelectorAll('tr')],found=[];
- for(const row of rows){const cells=[...row.querySelectorAll('th,td')].map(x=>plain(x.textContent));if(cells.length>=2){const dateText=cells[0],description=cells.slice(1).join(' · ').trim();const m=dateText.match(/(?:Mo|Di|Mi|Do|Fr|Sa|So)?\\s*(\\d{1,2})\\.(\\d{1,2})\\.(\\d{2,4})?/i);if(m&&description){let year=m[3]?Number(m[3]):calendarState.month.getFullYear();if(year<100)year+=2000;found.push({date:new Date(year,Number(m[2])-1,Number(m[1])),title:description,source:'Schulhomepage'})}}}
+ for(const row of rows){const cells=[...row.querySelectorAll('th,td')].map(x=>plain(x.textContent));if(cells.length>=2){const dateText=cells[0],description=cells.slice(1).join(' · ').trim();const m=dateText.match(/(?:Mo|Di|Mi|Do|Fr|Sa|So)?\s*(\d{1,2})\.(\d{1,2})\.(\d{2,4})?/i);if(m&&description){let year=m[3]?Number(m[3]):calendarState.month.getFullYear();if(year<100)year+=2000;found.push({date:new Date(year,Number(m[2])-1,Number(m[1])),title:description,source:'Schulhomepage'})}}}
  if(found.length)return found;
- const text=(doc.body.textContent||'').split(/\\n+/).map(x=>x.trim()).filter(Boolean);let activeMonth=null;
+ const text=(doc.body.textContent||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);let activeMonth=null;
  for(const line of text){const monthMatch=line.match(/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)$/i);if(monthMatch){activeMonth=months.findIndex(x=>x.toLowerCase()===monthMatch[1].toLowerCase());continue}
- const m=line.match(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\\s+)?(\\d{1,2})\\.(?:(\\d{1,2})\\.)?\\s*(?:\\|)?\\s*(.*)$/i);
+ const m=line.match(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\s+)?(\d{1,2})\.(?:(\d{1,2})\.)?\s*(?:\|)?\s*(.*)$/i);
  if(m&&activeMonth!==null&&m[3]){const month=m[2]?Number(m[2])-1:activeMonth;let year=calendarState.month.getFullYear();if(month<calendarState.month.getMonth()-5)year++;found.push({date:new Date(year,month,Number(m[1])),title:m[3],source:'Schulhomepage'})}}
  return found;
 }
