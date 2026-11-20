@@ -147,3 +147,42 @@ footer{color:#8093a2}
 footer a{color:#075184}
 @media(min-width:600px){main{padding:0 30px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:34px 34px 36px;margin-top:30px}article{padding:23px 25px}}
 @media(max-width:370px){main{padding:0 15px}.grid{gap:9px}.grid a{min-height:132px;padding:14px}}
+
+
+/* Version 12 – farbenfrohe, bildstarke Schul-App */
+:root{--ink:#102d49;--blue:#075ba5;--yellow:#ffd52e;--leaf:#8cc63e;--pink:#ef3f91;--paper:#f7faff}
+body{background:#f7faff}
+.top{height:76px;box-shadow:0 5px 24px rgba(9,54,98,.07)}
+.hero{min-height:245px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;isolation:isolate;overflow:hidden;margin:22px 0 32px;padding:30px 30px;border-radius:30px;background:linear-gradient(90deg,rgba(0,66,143,.96) 0%,rgba(0,91,172,.88) 44%,rgba(0,91,172,.12) 100%),url('https://images.squarespace-cdn.com/content/v1/6076ed9045fdeb53555ca899/b1867c92-381c-4a34-8a5f-c9320ab92ef7/GSH_Anisicht%2BS%C3%BCd%2Bmit%2BBoden.jpg') center 48%/cover no-repeat;box-shadow:0 18px 38px rgba(0,72,145,.18)}
+.hero:before{width:190px;height:190px;right:-45px;top:-105px;background:rgba(255,213,46,.9);border:0;mix-blend-mode:screen}
+.hero:after{width:140px;height:140px;right:28%;bottom:-105px;background:var(--pink);opacity:.9}
+.hero small{color:#ffe56a;font-size:10px;letter-spacing:2.2px}
+.hero h1{font-size:clamp(34px,7vw,52px);max-width:580px;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.12)}
+.hero p{font-size:14px;color:#fff;max-width:390px}
+#news{padding-top:0}
+.heading h2{font-size:30px}
+.heading small{color:#547b9b}
+article{position:relative;overflow:hidden;border:0;border-radius:25px;padding:23px 24px 22px 27px;box-shadow:0 12px 30px rgba(15,66,110,.07)}
+article:before{top:0;bottom:0;width:5px;border-radius:0}
+article h3{font-size:21px;line-height:1.22}
+article p{font-size:14px}
+article a{border-radius:30px;padding:10px 16px;background:#eaf4ff}
+.grid{gap:14px}
+.grid a{min-height:150px;border:0;border-radius:24px;padding:18px 17px 17px;box-shadow:0 9px 24px rgba(14,64,111,.07);background:linear-gradient(145deg,#fff 35%,#f5faff)}
+.grid a:nth-child(4n+1){background:linear-gradient(145deg,#fff 35%,#e8f4ff)}
+.grid a:nth-child(4n+2){background:linear-gradient(145deg,#fff 35%,#fff8dc)}
+.grid a:nth-child(4n+3){background:linear-gradient(145deg,#fff 35%,#eff8e5)}
+.grid a:nth-child(4n){background:linear-gradient(145deg,#fff 35%,#fff0f6)}
+.grid i{width:54px;height:54px;border-radius:19px;margin-bottom:14px;background:#dff0ff}
+.grid a:nth-child(4n+2) i{background:#fff0b8;color:#b98100}
+.grid a:nth-child(4n+3) i{background:#e7f4d7;color:#679b1b}
+.grid a:nth-child(4n) i{background:#ffe0ed;color:#d82e7c}
+.grid i svg{width:27px;height:27px;stroke-width:1.9}
+.grid b{font-size:15px}
+.grid small{font-size:11px}
+.grid a:after{top:17px;right:17px;font-size:17px}
+.contact{border:0;border-radius:24px;box-shadow:0 10px 26px rgba(14,64,111,.06)}
+nav{height:82px}
+nav a:first-child,nav a:focus{background:#e3f1ff}
+@media(min-width:600px){.hero{min-height:270px;padding:38px 40px;margin-top:26px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.grid a{min-height:160px}}
+@media(max-width:430px){.hero{min-height:225px;margin:16px 0 28px;padding:25px 22px;background-position:58% center}.hero h1{font-size:34px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid a{min-height:142px;padding:15px}.grid i{width:48px;height:48px}}
