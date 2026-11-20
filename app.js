@@ -41,4 +41,4 @@ async function loadSchoolCalendar(){
 document.querySelector('#month-prev')?.addEventListener('click',()=>{calendarState.month.setMonth(calendarState.month.getMonth()-1);calendarState.selected=new Date(calendarState.month);renderCalendar()});
 document.querySelector('#month-next')?.addEventListener('click',()=>{calendarState.month.setMonth(calendarState.month.getMonth()+1);calendarState.selected=new Date(calendarState.month);renderCalendar()});
 renderCalendar();loadSchoolCalendar();
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=10',{updateViaCache:'none'}).catch(()=>{}));
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=12',{updateViaCache:'none'}).catch(()=>{}));
