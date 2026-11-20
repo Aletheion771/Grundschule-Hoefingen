@@ -86,7 +86,7 @@ function parseSchoolEvents(html){
   const range=line.match(rangeRx);
   if(range&&activeMonth!==null){const em=range[3]!==undefined?Number(range[3])-1:activeMonth;add(Number(range[1]),activeMonth,yearFor(activeMonth),range[4],Number(range[2]),em);continue}
   const m=line.match(dateAtStart);
-  if(m){const month=Number(m[2])-1;if(month>=0&&month<12){const y=m[3]?Number(m[3]):yearFor(month);if(m[4])add(Number(m[1]),month,y,m[4]);else if(activeMonth!==null)add(Number(m[1]),activeMonth,yearFor(activeMonth),line.replace(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?\d{1,2}\.\s*/i,''));}}
+  if(m){const month=Number(m[2])-1;if(month>=0&&month<12&&m[4].trim()){const y=m[3]?Number(m[3]):yearFor(month);add(Number(m[1]),month,y,m[4]);}}
   else if(activeMonth!==null){
    const one=line.match(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[|]?\s*(.+)$/i);
    if(one)add(Number(one[1]),activeMonth,yearFor(activeMonth),one[2]);
