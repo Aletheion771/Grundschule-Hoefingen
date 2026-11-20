@@ -250,3 +250,17 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .info-section-item .info-card[data-dynamic-source] h2,.info-section-item .info-card[data-dynamic-source] h3{margin:14px 0 7px}
 .info-section-item .info-card[data-dynamic-source] p,.info-section-item .info-card[data-dynamic-source] li{font-size:14px;line-height:1.6;color:#536b7c}
 .info-section-item .info-card[data-dynamic-source="forms"] a{display:inline-flex;margin:5px 0;padding:10px 12px;border-radius:10px;background:#eaf2f7;color:#155b8b;text-decoration:none;font-weight:800}
+
+
+/* Version 39 – geschützter Bereich im App-Header */
+.top-actions{display:flex;align-items:center;gap:9px;position:relative}
+.secure-menu{position:relative}
+.secure-menu>summary{list-style:none;width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:#edf3f6;color:var(--navy);cursor:pointer;transition:background .15s}
+.secure-menu>summary::-webkit-details-marker{display:none}
+.secure-menu>summary:hover,.secure-menu[open]>summary{background:#dfeaf0}
+.secure-menu>summary svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.secure-panel{position:absolute;right:0;top:54px;width:min(285px,calc(100vw - 32px));padding:15px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 38px rgba(18,48,70,.16);z-index:50}
+.secure-panel>strong{display:block;margin:1px 2px 9px;color:var(--navy);font:800 15px Manrope,sans-serif}
+.secure-panel>a{display:flex;justify-content:space-between;align-items:center;padding:12px 10px;margin:3px 0;border-radius:10px;background:#f3f7f9;color:#155b8b;text-decoration:none;font-size:14px;font-weight:800}
+.secure-panel>a span{font-size:16px}
+.secure-panel>small{display:block;margin:10px 3px 1px;color:var(--muted);font-size:11px;line-height:1.45}
