@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b4772"><meta name="description" content="Die Schul-App der Grundschule Höfingen: Termine, Neuigkeiten und wichtige Informationen.">
-<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="stylesheet" href="./styles.css?v=18">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="stylesheet" href="./styles.css?v=19">
 <title>Grundschule Höfingen</title>
 </head>
 <body>
@@ -13,7 +13,6 @@
 <div class="welcome-copy"><span class="eyebrow">DIE SCHUL-APP</span><h1>Hallo<br><em>Höfingen!</em></h1><p>Alles rund um unseren Schulalltag. Einfach finden, was wichtig ist.</p><button class="text-action" type="button" onclick="document.querySelector('#quicklinks').scrollIntoView({behavior:'smooth'})">Was suchst du? <b>↓</b></button></div>
 <div class="welcome-art" aria-hidden="true"><div class="sun"></div><div class="school-art"><span></span><i></i><b></b></div><div class="art-dot dot-one"></div><div class="art-dot dot-two"></div></div>
 </section>
-<section class="upcoming" aria-labelledby="upcoming-title"><div class="section-kicker">ALS NÄCHSTES</div><div class="upcoming-inner"><div class="date-symbol"><span>↗</span></div><div class="upcoming-copy"><h2 id="upcoming-title">Schultermine im Blick</h2><p id="next-event">Die nächsten Termine werden geladen …</p></div><a href="#calendar" class="round-link" aria-label="Zum Kalender">→</a></div></section>
 <section id="news" class="news-section"><div class="section-head"><div><span class="section-kicker">NEUES AUS DER SCHULE</span><h2>Aktuelles</h2></div><a class="section-link" href="https://grundschule-hoefingen.de/" target="_blank" rel="noopener">Alle Meldungen ↗</a></div><p id="status">Neuigkeiten werden geladen …</p><div id="newslist" class="news-feed"></div></section>
 <section id="calendar" class="calendar-section" hidden><div class="section-head"><div><span class="section-kicker">TERMINE & FERIEN</span><h2>Schulkalender</h2></div><a class="section-link" href="https://grundschule-hoefingen.de/termine/" target="_blank" rel="noopener">Schulhomepage ↗</a></div>
 <div class="calendar-card"><div class="calendar-toolbar"><button id="month-prev" aria-label="Vorheriger Monat">‹</button><h3 id="month-label">Monat</h3><button id="month-next" aria-label="Nächster Monat">›</button></div><div class="calendar-weekdays"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div><div id="calendar-days" class="calendar-days" aria-label="Kalender"></div><div class="calendar-legend"><span><i></i> Schultermin</span><small id="calendar-count">Termine werden geladen …</small></div></div>
@@ -32,5 +31,5 @@
 </main>
 <nav aria-label="Hauptnavigation"><a class="active" href="#" aria-label="Startseite"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"/></svg><small>Start</small></a><a href="#news"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg><small>Aktuelles</small></a><a href="#calendar"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M7.5 3v4m9-4v4m-13 5h17"/></svg><small>Kalender</small></a><a href="https://grundschule-hoefingen.de/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg><small>Mehr</small></a></nav>
 <footer>Eine mobile Übersicht zur offiziellen <a href="https://grundschule-hoefingen.de/" target="_blank" rel="noopener">Schulhomepage</a>.<br><span id="updated">Nachrichten werden automatisch geladen.</span></footer>
-<script src="./app.js?v=18"></script>
+<script src="./app.js?v=19"></script>
 </body></html>
