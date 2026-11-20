@@ -134,3 +134,13 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .schedule-item{margin:8px 0}
 .schedule-item summary{font:800 15px Manrope,sans-serif}
 .schedule-content p{margin:0;color:#536b7c;font-size:14px;line-height:1.7}
+
+/* Aufklappbare Haupt-Informationsbereiche */
+.info-section-item{padding:0;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 3px 14px rgba(18,48,70,.04)}
+.info-section-item>.info-section-summary{display:block;cursor:pointer;list-style:none;padding:0 20px}
+.info-section-item>.info-section-summary::-webkit-details-marker{display:none}
+.info-section-item>.info-section-summary .section-head{margin:0;min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.info-section-item>.info-section-summary .section-head:after{content:'＋';font-size:23px;color:var(--blue);font-weight:400;transition:transform .15s}
+.info-section-item[open]>.info-section-summary .section-head:after{transform:rotate(45deg)}
+.info-section-item>.info-card{border:0;border-radius:0;box-shadow:none;border-top:1px solid var(--line);margin:0 18px 18px;padding:18px 4px 2px}
+.info-section-item{scroll-margin-top:90px}
