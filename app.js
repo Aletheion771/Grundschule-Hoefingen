@@ -173,7 +173,7 @@ document.head.appendChild(googleScript);
 function applyLogo(){
  const choice=localStorage.getItem('gs-logo')||'school';
  const logo=document.querySelector('.brand .school-logo');
- if(logo){logo.src=choice==='community'?'./logo-alternativ.webp':'https://grundschule-hoefingen.de/wp-content/uploads/2023/03/logo-gsh_web-300x281.png';}
+ if(logo){logo.src=choice==='community'?'https://grundschule-hoefingen.de/wp-content/uploads/Alternativlogo.png':'https://grundschule-hoefingen.de/wp-content/uploads/2023/03/logo-gsh_web-300x281.png';}
  document.querySelectorAll('[data-logo-choice]').forEach(b=>b.classList.toggle('active',b.dataset.logoChoice===choice));
 }
 document.querySelectorAll('[data-logo-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-logo',b.dataset.logoChoice);applyLogo()}));
