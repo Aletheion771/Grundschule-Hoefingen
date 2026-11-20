@@ -123,3 +123,21 @@ function updateConnectionHint(){if(!connectionHint)return;connectionHint.hidden=
 window.addEventListener('online',()=>{updateConnectionHint();loadNews();if(calendarState.loaded)loadSchoolCalendar(true)});
 window.addEventListener('offline',updateConnectionHint);
 updateConnectionHint();
+
+
+/* Informationsbereiche: immer nur einen Bereich gleichzeitig öffnen */
+document.querySelectorAll('.info-section-item').forEach(item=>{
+ item.addEventListener('toggle',()=>{
+  if(item.open) document.querySelectorAll('.info-section-item').forEach(other=>{if(other!==item)other.open=false});
+ });
+});
+document.querySelectorAll('.quick-link[href^="#"]').forEach(link=>{
+ link.addEventListener('click',e=>{
+  const target=document.querySelector(link.getAttribute('href'));
+  if(!target?.matches('.info-section-item'))return;
+  e.preventDefault();
+  document.querySelectorAll('.info-section-item').forEach(other=>{other.open=other===target});
+  history.replaceState(null,'',link.getAttribute('href'));
+  requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth',block:'start'}));
+ });
+});
