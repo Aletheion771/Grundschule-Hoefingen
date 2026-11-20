@@ -1,9 +1,29 @@
 const api='https://grundschule-hoefingen.de/wp-json/wp/v2/posts?per_page=10&orderby=date&order=desc&_embed=1';
+
+/* Gemeinsamer WordPress-Cache: automatische Aktualisierung höchstens alle 30 Minuten */
+const SCHOOL_CACHE_TTL=30*60*1000;
+async function getSchoolJson(url,key,force=false){
+ const cacheKey='gs-school-cache-'+key;
+ let cached=null;
+ try{cached=JSON.parse(localStorage.getItem(cacheKey)||'null')}catch(_){}
+ if(!force&&cached?.data&&Date.now()-cached.savedAt<SCHOOL_CACHE_TTL)return cached.data;
+ try{
+  const response=await fetch(url,{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const data=await response.json();
+  localStorage.setItem(cacheKey,JSON.stringify({data,savedAt:Date.now()}));
+  return data;
+ }catch(error){
+  if(cached?.data)return cached.data;
+  throw error;
+ }
+}
+
 const list=document.querySelector('#newslist'),status=document.querySelector('#status');
 function plain(s){const d=document.createElement('div');d.innerHTML=s||'';return(d.textContent||'').replace(/\s+/g,' ').trim()}
 function date(s){return s?new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(s)):''}
 function eventDate(text){const m=text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/);if(!m)return null;return new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59)}
-async function loadNews(){
+async function loadNews(force=false){
  status.hidden=false;status.textContent='Neuigkeiten werden geladen …';
  try{
   const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
@@ -26,7 +46,7 @@ async function loadNews(){
   status.hidden=true;
  }catch(e){status.textContent=navigator.onLine?'Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.':'Keine Internetverbindung – die Neuigkeiten können gerade nicht geladen werden.';list.replaceChildren()}
 }
-document.querySelector('#refresh').addEventListener('click',()=>{loadNews();loadSchoolCalendar(true)});loadNews();
+document.querySelector('#refresh').addEventListener('click',()=>{loadNews(true);loadSchoolCalendar(true)});loadNews();
 const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const monthMap=new Map(months.map((m,i)=>[m.toLowerCase(),i]));
 const calendarState={month:new Date(new Date().getFullYear(),new Date().getMonth(),1),selected:new Date(),events:[],loaded:false,loading:false,view:'list'};
@@ -105,7 +125,7 @@ function renderCalendar(){
 }
 async function loadSchoolCalendar(force=false){
  const target=document.querySelector('#agenda-list');if(!target||calendarState.loading)return;if(calendarState.loaded&&!force)return;calendarState.loading=true;target.innerHTML='<p class="calendar-loading">Termine werden von der Schulhomepage geladen …</p>';
- try{const r=await fetch('https://grundschule-hoefingen.de/wp-json/wp/v2/pages?slug=termine&_fields=content,title,link',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();if(!Array.isArray(data)||!data[0]?.content?.rendered)throw Error('Terminseite nicht gefunden');const pageEvents=parseSchoolEvents(data[0].content.rendered);const preserved=calendarState.events||[];const merged=[...preserved,...pageEvents,...officialCareEvents()];const unique=new Map();for(const e of merged)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);calendarState.events=[...unique.values()].sort((a,b)=>a.start-b.start);if(!calendarState.events.length)throw Error('Keine Termine erkannt');calendarState.loaded=true;renderCalendar()}catch(e){calendarState.loaded=false;renderCalendar();target.innerHTML='<p class="calendar-empty">Die Termine konnten nicht automatisch eingelesen werden. Bitte nutze die <a href="https://grundschule-hoefingen.de/termine/" target="_blank" rel="noopener">offizielle Terminübersicht ↗</a>.</p>'}finally{calendarState.loading=false}
+ try{const data=await getSchoolJson('https://grundschule-hoefingen.de/wp-json/wp/v2/pages?slug=termine&_fields=content,title,link','calendar',force);if(!Array.isArray(data)||!data[0]?.content?.rendered)throw Error('Terminseite nicht gefunden');const pageEvents=parseSchoolEvents(data[0].content.rendered);const preserved=calendarState.events||[];const merged=[...preserved,...pageEvents,...officialCareEvents()];const unique=new Map();for(const e of merged)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);calendarState.events=[...unique.values()].sort((a,b)=>a.start-b.start);if(!calendarState.events.length)throw Error('Keine Termine erkannt');calendarState.loaded=true;renderCalendar()}catch(e){calendarState.loaded=false;renderCalendar();target.innerHTML='<p class="calendar-empty">Die Termine konnten nicht automatisch eingelesen werden. Bitte nutze die <a href="https://grundschule-hoefingen.de/termine/" target="_blank" rel="noopener">offizielle Terminübersicht ↗</a>.</p>'}finally{calendarState.loading=false}
 }
 document.querySelectorAll('.view-choice').forEach(button=>button.addEventListener('click',()=>{calendarState.view=button.dataset.view;document.querySelectorAll('.view-choice').forEach(b=>b.classList.toggle('active',b===button));document.querySelector('#calendar-month-view').hidden=calendarState.view!=='month';renderCalendar()}));
 document.querySelector('#month-prev')?.addEventListener('click',()=>{calendarState.month=new Date(calendarState.month.getFullYear(),calendarState.month.getMonth()-1,1);calendarState.selected=new Date(calendarState.month);renderCalendar()});
