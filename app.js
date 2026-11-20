@@ -80,6 +80,8 @@ function parseSchoolEvents(html){
  // First pass: preserve headings and parse complete text rows (e.g. "Di 03.11. | Elternabend 0").
  const blocks=[...root.querySelectorAll('h1,h2,h3,h4,p,li,tr')];
  for(const el of blocks){
+  // A table row is the unit of truth; do not parse its nested cells/paragraphs again.
+  if(el.tagName!=='TR' && el.closest('tr'))continue;
   const line=norm(el.tagName==='TR'?[...el.querySelectorAll('th,td')].map(cell=>norm(cell.textContent)).join(' | '):el.textContent);if(!line)continue;
   const mh=line.match(monthRx);
   if(mh){activeMonth=monthNames.indexOf(mh[1].toLowerCase());if(mh[2])activeYear=Number(mh[2]);else if(activeMonth<previousMonth-6)activeYear++;previousMonth=activeMonth;continue}
@@ -89,7 +91,8 @@ function parseSchoolEvents(html){
   if(m){const month=Number(m[2])-1;if(month>=0&&month<12&&m[4].trim()){const y=m[3]?Number(m[3]):yearFor(month);add(Number(m[1]),month,y,m[4]);}}
   else if(activeMonth!==null){
    const one=line.match(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[|]?\s*(.+)$/i);
-   if(one)add(Number(one[1]),activeMonth,yearFor(activeMonth),one[2]);
+   // Do not mistake clock values like "18.30 Uhr" for day/month entries.
+   if(one && !/^\d{1,2}\s*Uhr\b/i.test(one[2]) && !/^\d{1,2}:\d{2}\s*Uhr\b/i.test(one[2]))add(Number(one[1]),activeMonth,yearFor(activeMonth),one[2]);
   }
  }
  // Second pass: on the school page, weekday/date and event text are sometimes separate
