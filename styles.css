@@ -273,3 +273,19 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .top-actions>.secure-menu>summary{width:42px;height:42px}
 .top-actions>button#refresh{position:static;right:auto;width:42px;height:42px;flex:0 0 42px}
 @media(max-width:600px){.top-actions{right:14px;gap:6px}.top-actions>.secure-menu>summary,.top-actions>button#refresh{width:38px;height:38px;flex-basis:38px}}
+
+/* Unterrichtszeiten: grafische Zeitkarten */
+.schedule-card .schedule-intro{font-size:13px;color:var(--muted);margin:0 0 13px;line-height:1.5}
+.schedule-card .schedule-item{background:#f7fafc;border:1px solid #dce7ee;border-radius:15px;margin:10px 0;overflow:hidden}
+.schedule-card .schedule-item summary{padding:16px 17px;font-size:16px;min-height:54px}
+.schedule-card .schedule-content{padding:0 12px 13px}
+.schedule-card .day-grid{display:grid;gap:8px}
+.schedule-card .day-row{display:grid;grid-template-columns:88px minmax(0,1fr);align-items:center;gap:9px;padding:10px 11px;border:1px solid #e3ebf0;border-radius:12px;background:#fff}
+.schedule-card .day-row>b{font-size:13px;color:#294b62}
+.schedule-card .time-slots{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.schedule-card .time-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 9px;border-radius:9px;background:#e9f2f8;color:#124d73;font-size:13px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.schedule-card .afternoon-chip{background:#fff3d8;color:#805600}
+.schedule-card .time-chip small{font-size:9px;letter-spacing:.35px;text-transform:uppercase;font-weight:800;opacity:.8}
+.schedule-card .day-row.has-afternoon{border-color:#ead9ac;background:#fffdf8}
+.schedule-card .schedule-source{display:inline-flex;margin:13px 0 3px;padding:10px 13px;border-radius:10px;background:#eaf2f7;text-decoration:none}
+@media(max-width:380px){.schedule-card .day-row{grid-template-columns:75px minmax(0,1fr);gap:6px;padding:9px}.schedule-card .time-chip{font-size:11px;padding:7px 8px}}
