@@ -57,9 +57,17 @@ function officialCareEvents(){
  ['2026-10-26','2026-10-26','Pädagogischer Tag – Betreuung geschlossen','Schließtag'],
  ['2026-12-23','2026-12-31','Weihnachtsferien','Ferien'],
  ['2026-12-23','2026-12-23','Betreuungstag','Betreuung'],
- ['2026-12-24','2026-12-31','Betreuung geschlossen','Schließtag']
+ ['2026-12-24','2026-12-31','Betreuung geschlossen','Schließtag'],
+ // Landesweit festgelegte Schulferien Baden-Württemberg 2026/27 und 2027/28
+ ['2026-12-23','2027-01-09','Weihnachtsferien 2026/27','Ferien'],
+ ['2027-03-25','2027-03-25','Schulfrei (Gründonnerstag)','Schulfreier Tag'],
+ ['2027-03-30','2027-04-03','Osterferien 2027','Ferien'],
+ ['2027-05-18','2027-05-29','Pfingstferien 2027','Ferien'],
+ ['2027-07-29','2027-09-11','Sommerferien 2027','Ferien'],
+ ['2027-11-02','2027-11-06','Herbstferien 2027','Ferien'],
+ ['2027-12-23','2028-01-08','Weihnachtsferien 2027/28','Ferien']
  ];
- return specs.map(([a,b,title,category])=>({start:new Date(a+'T00:00:00'),end:new Date(b+'T23:59:59'),title,category,source:'Offizieller Betreuungs-Ferienplan 2026'}));
+ return specs.map(([a,b,title,category])=>({start:new Date(a+'T00:00:00'),end:new Date(b+'T23:59:59'),title,category,source:category==='Betreuung'||category==='Schließtag'?'Offizieller Betreuungs-Ferienplan 2026':'Kultusministerium Baden-Württemberg'}));
 }
 function renderCalendar(){
  const grid=document.querySelector('#calendar-days');if(!grid)return;
@@ -86,4 +94,4 @@ function closeCalendar(){document.querySelector('#calendar').hidden=true}
 document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCalendar()}));
 document.querySelector('nav a[href="#"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'));window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelector('nav a[href="#news"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#news'));document.querySelector('#news').scrollIntoView({behavior:'smooth',block:'start'})});
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=20',{updateViaCache:'none'}).catch(()=>{}));
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=21',{updateViaCache:'none'}).catch(()=>{}));
