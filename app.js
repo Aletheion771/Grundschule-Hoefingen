@@ -2,21 +2,27 @@ const api='https://grundschule-hoefingen.de/wp-json/wp/v2/posts?per_page=10&orde
 
 /* Gemeinsamer WordPress-Cache: automatische Aktualisierung höchstens alle 30 Minuten */
 const SCHOOL_CACHE_TTL=30*60*1000;
+const schoolRequests=new Map();
 async function getSchoolJson(url,key,force=false){
  const cacheKey='gs-school-cache-'+key;
  let cached=null;
  try{cached=JSON.parse(localStorage.getItem(cacheKey)||'null')}catch(_){}
  if(!force&&cached?.data&&Date.now()-cached.savedAt<SCHOOL_CACHE_TTL)return cached.data;
- try{
-  const response=await fetch(url,{cache:'no-store'});
-  if(!response.ok)throw Error('HTTP '+response.status);
-  const data=await response.json();
-  localStorage.setItem(cacheKey,JSON.stringify({data,savedAt:Date.now()}));
-  return data;
- }catch(error){
-  if(cached?.data)return cached.data;
-  throw error;
- }
+ if(schoolRequests.has(key))return schoolRequests.get(key);
+ const request=(async()=>{
+  try{
+   const response=await fetch(url,{cache:'no-store'});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const data=await response.json();
+   try{localStorage.setItem(cacheKey,JSON.stringify({data,savedAt:Date.now()}))}catch(_){}
+   return data;
+  }catch(error){
+   if(cached?.data)return cached.data;
+   throw error;
+  }finally{schoolRequests.delete(key)}
+ })();
+ schoolRequests.set(key,request);
+ return request;
 }
 
 const list=document.querySelector('#newslist'),status=document.querySelector('#status');
@@ -26,8 +32,7 @@ function eventDate(text){const m=text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/)
 async function loadNews(force=false){
  status.hidden=false;status.textContent='Neuigkeiten werden geladen …';
  try{
-  const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
-  const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error('Keine Beiträge');
+  const posts=await getSchoolJson(api,'news',force);if(!Array.isArray(posts)||!posts.length)throw Error('Keine Beiträge');
   list.replaceChildren();posts.sort((a,b)=>new Date(b.date)-new Date(a.date));
   posts.forEach((p,index)=>{
    const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title),past=Boolean(event&&event<new Date());
@@ -211,20 +216,26 @@ function applyTranslations(){
  document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(translations.de[key])el.textContent=translations.de[key]});
  if(lang!=='de')translateWholePage(lang);
 }
+let googleTranslateLoading=false,googleTranslateLoaded=false;
 function translateWholePage(lang){
+ if(lang==='de')return;
  const select=document.querySelector('.goog-te-combo');
  if(select){select.value=lang;select.dispatchEvent(new Event('change'));return}
  window.__pendingSchoolAppLanguage=lang;
+ if(googleTranslateLoading||googleTranslateLoaded)return;
+ googleTranslateLoading=true;
+ const script=document.createElement('script');
+ script.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+ script.async=true;
+ script.onerror=()=>{googleTranslateLoading=false};
+ document.head.appendChild(script);
 }
 window.googleTranslateElementInit=function(){
+ googleTranslateLoading=false;googleTranslateLoaded=true;
  new google.translate.TranslateElement({pageLanguage:'de',includedLanguages:'en,tr',autoDisplay:false},'google_translate_element');
  const pending=window.__pendingSchoolAppLanguage;
  if(pending)translateWholePage(pending);
 };
-const googleScript=document.createElement('script');
-googleScript.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-googleScript.async=true;
-document.head.appendChild(googleScript);
 function applyLogo(){
  const choice=localStorage.getItem('gs-logo')||'school';
  const logo=document.querySelector('.brand .school-logo');
