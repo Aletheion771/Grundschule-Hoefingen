@@ -200,7 +200,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()
 applyTheme();applyTranslations();applyLogo();
 document.querySelectorAll('[data-language-choice]').forEach(b=>b.classList.toggle('active',b.dataset.languageChoice===(localStorage.getItem('gs-language')||'de')));
 
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=23',{updateViaCache:'none'}).catch(()=>{}));
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=24',{updateViaCache:'none'}).catch(()=>{}));
 
 const connectionHint=document.querySelector('#connection-hint');
 function updateConnectionHint(){if(!connectionHint)return;connectionHint.hidden=navigator.onLine;connectionHint.textContent='Du bist offline. Nachrichten und aktuelle Termine benötigen eine Internetverbindung; bereits geladene App-Inhalte bleiben teilweise verfügbar.'}
