@@ -116,6 +116,37 @@ function closeCalendar(){document.querySelector('#calendar').hidden=true}
 document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCalendar()}));
 document.querySelector('nav a[href="#"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'));window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelector('nav a[href="#news"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#news'));document.querySelector('#news').scrollIntoView({behavior:'smooth',block:'start'})});
+
+/* Mehr-Bereich, Farbschema und App-Sprache */
+const moreSection=document.querySelector('#more');
+function closeMore(){if(moreSection)moreSection.hidden=true}
+function openMore(){closeCalendar();moreSection.hidden=false;document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#more'));applyTranslations();requestAnimationFrame(()=>moreSection.scrollIntoView({behavior:'smooth',block:'start'}))}
+document.querySelector('nav a[href="#more"]')?.addEventListener('click',e=>{e.preventDefault();openMore()});
+document.querySelector('nav a[href="#"]')?.addEventListener('click',()=>closeMore());
+document.querySelector('nav a[href="#news"]')?.addEventListener('click',()=>closeMore());
+document.querySelector('nav a[href="#calendar"]')?.addEventListener('click',()=>closeMore());
+const translations={
+ de:{more:'Mehr',moreKicker:'WEITERE ANGEBOTE',moreTitle:'Mehr',schoolWebsite:'Schulhomepage',schoolWebsiteSub:'Zur offiziellen Website der Grundschule',imprint:'Impressum',imprintSub:'Anbieterkennzeichnung und Kontakt',settings:'Einstellungen',appearance:'Farbschema',appearanceSub:'Wie soll die App dargestellt werden?',system:'System',normal:'Normal',dark:'Dark',language:'Sprache',languageSub:'Sprache der App auswählen',translationNote:'Hinweis: Neuigkeiten und Inhalte der Schulhomepage werden weiterhin in ihrer Originalsprache angezeigt.',careKicker:'BETREUUNG & KONTAKT',careTitle:'Schulkindbetreuung',careLead:'Betreuung an der Grundschule Höfingen ist – je nach gebuchtem Baustein – morgens ab 07:00 Uhr und nachmittags bis 17:00 Uhr möglich.',careReliable:'Verlässliche Grundschule',careReliableText:'Betreuung vor Unterrichtsbeginn und nach dem Unterricht bis 13:30 Uhr. In dieser Zeit können die Kinder essen, spielen, malen oder die Lernzeit für Hausaufgaben nutzen. Die Eltern kontrollieren Richtigkeit und Vollständigkeit der Hausaufgaben.',paid:'Kostenpflichtig',careExtra:'Zusätzliche Früh- und Spätbetreuung',early:'Frühbetreuung',beforeClass:'bis Unterrichtsbeginn',between:'Zwischenzeiten',betweenText:'zwischen Unterricht und Nachmittagsveranstaltungen',late:'Spätbetreuung',afterClass:'freitags nach Unterrichtsende zusätzlich',careQuestions:'Fragen zu Buchung und Kosten?',careQuestionsText:'Die Buchbarkeit und die Kosten der einzelnen Betreuungsbausteine erfahren Sie direkt bei der Schulkindbetreuung.',phoneHours:'Telefonische Erreichbarkeit',monThu:'Montag–Donnerstag',fri:'Freitag',holidayCare:'Ferienbetreuung',holidayText:'Ferienzeiten, Betreuungstage und Schließtage stehen im jährlichen Ferienplan.',holidayPlan:'Ferienplan 2026 ↗',careSource:'Angaben laut offizieller Schulhomepage.',moreDetails:'Alle Details ↗'},
+ en:{more:'More',moreKicker:'MORE OPTIONS',moreTitle:'More',schoolWebsite:'School website',schoolWebsiteSub:'Visit the official primary school website',imprint:'Legal notice',imprintSub:'Publisher information and contact',settings:'Settings',appearance:'Colour scheme',appearanceSub:'Choose how the app looks',system:'System',normal:'Light',dark:'Dark',language:'Language',languageSub:'Choose the app language',translationNote:'Note: News and content from the school website remain in their original language.',careKicker:'CHILDCARE & CONTACT',careTitle:'After-school care',careLead:'Depending on the selected option, childcare is available from 7:00 am until 5:00 pm.',careReliable:'Regular primary school care',careReliableText:'Care before lessons and after school until 1:30 pm, Monday to Friday. Children can eat, play, draw or use the learning time for homework. Parents are responsible for checking homework.',paid:'Fee-based',careExtra:'Additional early and late care',early:'Early care',beforeClass:'until lessons begin',between:'Between lessons',betweenText:'between lessons and afternoon activities',late:'Late care',afterClass:'also after lessons on Fridays',careQuestions:'Questions about booking and fees?',careQuestionsText:'Please contact the childcare team directly for availability and fees.',phoneHours:'Telephone hours',monThu:'Monday–Thursday',fri:'Friday',holidayCare:'Holiday care',holidayText:'Holiday dates, care days and closure days are listed in the annual holiday plan.',holidayPlan:'Holiday plan 2026 ↗',careSource:'Information from the official school website.',moreDetails:'Full details ↗'},
+ tr:{more:'Daha fazla',moreKicker:'DİĞER SEÇENEKLER',moreTitle:'Daha fazla',schoolWebsite:'Okulun internet sitesi',schoolWebsiteSub:'İlkokulun resmî internet sitesini ziyaret edin',imprint:'Yasal bilgiler',imprintSub:'Yayıncı bilgileri ve iletişim',settings:'Ayarlar',appearance:'Renk teması',appearanceSub:'Uygulamanın görünümünü seçin',system:'Sistem',normal:'Açık',dark:'Koyu',language:'Dil',languageSub:'Uygulama dilini seçin',translationNote:'Not: Haberler ve okul web sitesindeki içerikler orijinal dillerinde gösterilir.',careKicker:'ÇOCUK BAKIMI VE İLETİŞİM',careTitle:'Okul sonrası bakım',careLead:'Seçilen bakım seçeneğine bağlı olarak sabah 07.00’den akşam 17.00’ye kadar bakım mümkündür.',careReliable:'Düzenli okul bakımı',careReliableText:'Derslerden önce ve okuldan sonra 13.30’a kadar, pazartesiden cumaya bakım sunulur. Çocuklar yemek yiyebilir, oynayabilir, resim yapabilir veya ödevleri için öğrenme saatinden yararlanabilir. Ödevlerin kontrolü velilere aittir.',paid:'Ücretlidir',careExtra:'Ek erken ve geç bakım',early:'Sabah bakımı',beforeClass:'dersler başlayana kadar',between:'Ders araları',betweenText:'dersler ile öğleden sonraki etkinlikler arasında',late:'Akşam bakımı',afterClass:'cuma günleri ders bitiminden sonra da',careQuestions:'Kayıt ve ücretler hakkında sorularınız mı var?',careQuestionsText:'Uygunluk ve ücret bilgileri için lütfen doğrudan okul bakım ekibiyle iletişime geçin.',phoneHours:'Telefonla ulaşılabilirlik',monThu:'Pazartesi–Perşembe',fri:'Cuma',holidayCare:'Tatil bakımı',holidayText:'Tatil tarihleri, bakım günleri ve kapalı günler yıllık tatil planında yer alır.',holidayPlan:'2026 tatil planı ↗',careSource:'Bilgiler okulun resmî internet sitesinden alınmıştır.',moreDetails:'Tüm ayrıntılar ↗'}
+};
+function applyTranslations(){
+ const lang=localStorage.getItem('gs-language')||'de',dict=translations[lang]||translations.de;
+ document.documentElement.lang=lang;
+ document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(dict[key])el.textContent=dict[key]});
+}
+function applyTheme(){
+ const choice=localStorage.getItem('gs-theme')||'system';
+ const dark=choice==='dark'||(choice==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+ document.documentElement.dataset.theme=dark?'dark':'light';
+ document.querySelectorAll('[data-theme-choice]').forEach(b=>b.classList.toggle('active',b.dataset.themeChoice===choice));
+}
+document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-theme',b.dataset.themeChoice);applyTheme()}));
+document.querySelectorAll('[data-language-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-language',b.dataset.languageChoice);applyTranslations();document.querySelectorAll('[data-language-choice]').forEach(x=>x.classList.toggle('active',x.dataset.languageChoice===b.dataset.languageChoice))}));
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if((localStorage.getItem('gs-theme')||'system')==='system')applyTheme()});
+applyTheme();applyTranslations();
+document.querySelectorAll('[data-language-choice]').forEach(b=>b.classList.toggle('active',b.dataset.languageChoice===(localStorage.getItem('gs-language')||'de')));
+
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=22',{updateViaCache:'none'}).catch(()=>{}));
 
 const connectionHint=document.querySelector('#connection-hint');
@@ -208,7 +239,6 @@ loadFoerderverein();
 /* Unterrichtszeiten, Betreuung und Formulare live aus WordPress laden */
 const schoolPageSources=[
  
- {slug:'schulkindbetreuung',id:'betreuung-info',key:'care'},
  {slug:'formulare',id:'formulare-info',key:'forms'}
 ];
 function safeSchoolFragment(markup){
@@ -265,7 +295,6 @@ loadSchoolInfoPages();
  const eventBySection={
   'foerderverein':'foerderverein',
   'unterrichtszeiten-info':'schedule',
-  'betreuung-info':'care',
   'formulare-info':'forms'
  };
  document.querySelectorAll('.info-section-item').forEach(section=>{
