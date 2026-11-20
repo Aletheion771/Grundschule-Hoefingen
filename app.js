@@ -145,7 +145,6 @@ function openCalendar(){const section=document.querySelector('#calendar');if(!se
 function closeCalendar(){document.querySelector('#calendar').hidden=true}
 document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCalendar()}));
 document.querySelector('nav a[href="#"]').addEventListener('click',e=>{e.preventDefault();showHomeContent(true);closeCalendar();closeInfoViews();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'));window.scrollTo({top:0,behavior:'smooth'})});
-document.querySelector('nav a[href="#news"]').addEventListener('click',e=>{e.preventDefault();showHomeContent(false);closeCalendar();closeInfoViews();closeMore();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#news'));document.querySelector('#news').scrollIntoView({behavior:'smooth',block:'start'})});
 
 /* Mehr-Bereich, Farbschema und App-Sprache */
 const moreSection=document.querySelector('#more');
