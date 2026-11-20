@@ -363,3 +363,8 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .calendar-legend .holiday-legend i{background:#d58a22}
 :root[data-theme="dark"] .agenda-item.holiday-item{background:#342f27;border-color:#665039}
 :root[data-theme="dark"] .agenda-date.holiday-date,:root[data-theme="dark"] .event-category.holiday-category{background:#554127;color:#ffd99e}
+
+
+/* Kopfzeile bleibt beim Scrollen sichtbar */
+.top{position:sticky!important;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(18px)}
+:root[data-theme="dark"] .top{background:rgba(20,35,45,.96)}
