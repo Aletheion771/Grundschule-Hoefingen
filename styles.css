@@ -463,3 +463,19 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
   .top-actions button,.secure-menu>summary{width:36px;height:36px}
   .beta-label{font-size:9px;padding:3px 5px;letter-spacing:0}
 }
+
+
+/* Header layout fix: reserve real horizontal space for logo, beta label and actions */
+.top{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:8px!important;padding-left:12px!important;padding-right:12px!important}
+.brand{flex:0 1 auto!important;min-width:0!important;justify-content:flex-start!important}
+.brand .school-logo{width:clamp(108px,34vw,150px)!important;max-width:100%!important;height:66px!important;flex:0 1 auto!important;object-fit:contain!important}
+.beta-label{flex:0 0 auto!important;margin:0 auto!important;font-size:10px!important;padding:4px 7px!important}
+.top-actions{position:relative!important;top:auto!important;right:auto!important;transform:none!important;flex:0 0 auto!important;gap:5px!important}
+.top-actions>button,.top-actions>.secure-menu>summary{width:40px!important;height:40px!important}
+@media(max-width:380px){
+.top{gap:5px!important;padding-left:8px!important;padding-right:8px!important}
+.brand .school-logo{width:clamp(100px,31vw,116px)!important;height:62px!important}
+.beta-label{font-size:9px!important;padding:3px 5px!important}
+.top-actions{gap:4px!important}
+.top-actions>button,.top-actions>.secure-menu>summary{width:36px!important;height:36px!important}
+}
