@@ -1,7 +1,27 @@
-const api='https://grundschule-hoefingen.de/wp-json/wp/v2/posts?per_page=10&orderby=modified&order=desc&_embed=1';
+const api='https://grundschule-hoefingen.de/wp-json/wp/v2/posts?per_page=10&orderby=date&order=desc&_embed=1';
 const list=document.querySelector('#newslist'),status=document.querySelector('#status');
-function plain(s){const d=document.createElement('div');d.innerHTML=s||'';return(d.textContent||'').replace(/\\s+/g,' ').trim()}
+function plain(s){const d=document.createElement('div');d.innerHTML=s||'';return(d.textContent||'').replace(/\s+/g,' ').trim()}
 function date(s){return s?new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(s)):''}
-function eventDate(text){const m=text.match(/\\b(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\b/);if(!m)return null;const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59);return Number.isNaN(d.getTime())?null:d}
-async function load(){status.hidden=false;status.textContent='Neuigkeiten werden geladen …';try{const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error();const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error();list.replaceChildren();posts.sort((x,y)=>new Date(y.date)-new Date(x.date));for(const p of posts){const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title+' '+excerpt),past=event&&event<new Date(),card=document.createElement('article'),meta=document.createElement('div'),h=document.createElement('h3'),x=document.createElement('p'),l=document.createElement('a');if(past)card.classList.add('past');meta.className='meta';meta.textContent='SCHULNACHRICHTEN · veröffentlicht '+date(p.date);if(past){const tag=document.createElement('span');tag.className='news-state';tag.textContent='VERGANGEN';meta.append(tag)}h.textContent=title;x.textContent=excerpt;l.href=p.link;l.target='_blank';l.rel='noopener';l.textContent=past?'Beitrag ansehen ↗':'Beitrag lesen ↗';card.append(meta,h,x,l);list.append(card)}status.hidden=true;document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.'}catch(e){status.textContent='Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.';list.replaceChildren()}}
-document.querySelector('#refresh').addEventListener('click',load);load();if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=7',{updateViaCache:'none'}).catch(()=>{}));
+function eventDate(text){const m=text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/);if(!m)return null;const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59);return Number.isNaN(d.getTime())?null:d}
+async function load(){
+ status.hidden=false;status.textContent='Neuigkeiten werden geladen …';
+ try{
+  const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error('Feed nicht erreichbar');
+  const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error('Keine Beiträge');
+  list.replaceChildren();
+  posts.sort((x,y)=>new Date(y.date)-new Date(x.date));
+  for(const p of posts){
+   const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title+' '+excerpt),past=Boolean(event&&event<new Date());
+   const card=document.createElement('article'),meta=document.createElement('div'),h=document.createElement('h3'),x=document.createElement('p'),l=document.createElement('a');
+   if(past)card.classList.add('past');
+   meta.className='meta';meta.textContent='SCHULNACHRICHTEN · veröffentlicht '+date(p.date);
+   if(past){const tag=document.createElement('span');tag.className='news-state';tag.textContent='VERGANGEN';meta.append(tag)}
+   h.textContent=title;x.textContent=excerpt;l.href=p.link;l.target='_blank';l.rel='noopener';l.textContent=past?'Beitrag ansehen ↗':'Beitrag lesen ↗';
+   card.append(meta,h,x,l);list.append(card);
+  }
+  status.hidden=true;
+  document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.';
+ }catch(e){status.textContent='Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.';list.replaceChildren()}
+}
+document.querySelector('#refresh').addEventListener('click',load);load();
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=8',{updateViaCache:'none'}).catch(()=>{}));
