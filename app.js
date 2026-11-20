@@ -141,3 +141,66 @@ document.querySelectorAll('.quick-link[href^="#"]').forEach(link=>{
   requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth',block:'start'}));
  });
 });
+
+
+/* Förderverein: Inhalte bei jedem App-Start aus WordPress laden */
+async function loadFoerderverein(){
+ const root=document.querySelector('#foerderverein .foerderverein-card');
+ const status=document.querySelector('#fv-sync-status');
+ if(!root)return;
+ const cacheKey='gs-hoefingen-foerderverein-v1';
+ const setStatus=t=>{if(status)status.textContent=t};
+ try{
+  const endpoint='https://grundschule-hoefingen.de/wp-json/wp/v2/pages?slug=foerderverein&_fields=content,title,link';
+  const response=await fetch(endpoint,{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const pages=await response.json();
+  if(!Array.isArray(pages)||!pages[0]?.content?.rendered)throw Error('Fördervereinsseite nicht gefunden');
+  const doc=new DOMParser().parseFromString(pages[0].content.rendered,'text/html');
+  const content=doc.querySelector('.entry-content,.page-content,main,article')||doc.body;
+  const paragraphs=[...content.querySelectorAll('p')].map(p=>p.textContent.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const headings=[...content.querySelectorAll('h2,h3,h4')];
+  const activities=[];
+  headings.forEach((h,i)=>{
+   const title=h.textContent.replace(/\s+/g,' ').trim();
+   if(!title||/förderverein|aktivitäten|schon mitglied|kontakt/i.test(title))return;
+   let sibling=h.nextElementSibling;
+   while(sibling&& !/^H[234]$/.test(sibling.tagName)){
+    if(sibling.tagName==='P'&&sibling.textContent.trim()){
+     activities.push({title,description:sibling.textContent.replace(/\s+/g,' ').trim()});break;
+    }
+    sibling=sibling.nextElementSibling;
+   }
+  });
+  const logo=content.querySelector('img');
+  const email=(content.innerText.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)||[])[0]||'kontakt@foerderverein-hoefingen.de';
+  const membershipUrl='https://grundschule-hoefingen.de/foerderverein-mitgliedsantrag/';
+  let fee='12 €';
+  try{
+   const mr=await fetch('https://grundschule-hoefingen.de/wp-json/wp/v2/pages?slug=foerderverein-mitgliedsantrag&_fields=content',{cache:'no-store'});
+   if(mr.ok){const mp=await mr.json();const txt=mp?.[0]?.content?.rendered||'';const match=txt.match(/(\d+[,.]?\d*)\s*€\s*(?:jährlich|pro\s*Jahr)|(?:jährlich|pro\s*Jahr)[^\d]{0,20}(\d+[,.]?\d*)\s*€/i);if(match)fee=(match[1]||match[2]).replace('.',',')+' €';}
+  }catch(_){}
+  const data={paragraphs:paragraphs.slice(0,3),activities,logo:logo?.getAttribute('src')||'',email,fee,updated:new Date().toISOString()};
+  if(!data.paragraphs.length)throw Error('Seiteninhalt konnte nicht gelesen werden');
+  localStorage.setItem(cacheKey,JSON.stringify(data));
+  renderFoerderverein(data);
+  setStatus('Aktuelle Inhalte von der Schulhomepage · zuletzt geladen: '+new Date(data.updated).toLocaleString('de-DE'));
+ }catch(e){
+  try{const cached=JSON.parse(localStorage.getItem(cacheKey)||'null');if(cached){renderFoerderverein(cached);setStatus('Gespeicherter Stand wird angezeigt · Aktualisierung derzeit nicht möglich');return;}}catch(_){}
+  setStatus('Homepage-Inhalte konnten nicht aktualisiert werden. Bitte die Schulhomepage öffnen.');
+ }
+}
+function renderFoerderverein(data){
+ const root=document.querySelector('#foerderverein .foerderverein-card');if(!root)return;
+ const brand=root.querySelector('.fv-brand');
+ if(brand&&data.logo){const img=brand.querySelector('img');if(img)img.src=data.logo;}
+ const oldIntro=root.querySelector('.fv-dynamic-intro');if(oldIntro)oldIntro.remove();
+ const intro=document.createElement('div');intro.className='fv-dynamic-intro';
+ (data.paragraphs||[]).forEach(t=>{const p=document.createElement('p');p.textContent=t;intro.append(p)});
+ brand?.after(intro);
+ const fee=root.querySelector('.fv-fee-panel span b');if(fee&&data.fee)fee.textContent=data.fee;
+ const emailLink=root.querySelector('.fv-contact a');if(emailLink&&data.email){emailLink.href='mailto:'+data.email;emailLink.textContent=data.email;}
+ const list=root.querySelector('.fv-activities-list');
+ if(list&&data.activities?.length){list.replaceChildren();data.activities.forEach(a=>{const item=document.createElement('div'),b=document.createElement('b'),p=document.createElement('p');b.textContent=a.title;p.textContent=a.description;item.append(b,p);list.append(item)});}
+}
+loadFoerderverein();
