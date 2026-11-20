@@ -78,9 +78,9 @@ function parseSchoolEvents(html){
  const dateAtStart=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.(\d{1,2})\.(?:(20\d{2})\.?)?\s*(.*)$/i;
  const rangeRx=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[–—-]\s*(\d{1,2})\.(?:\s*(\d{1,2})\.)?\s*(?:\|\s*)?(.*)$/i;
  // First pass: preserve headings and parse complete text rows (e.g. "Di 03.11. | Elternabend 0").
- const blocks=[...root.querySelectorAll('h1,h2,h3,h4,p,li,tr,td,th')];
+ const blocks=[...root.querySelectorAll('h1,h2,h3,h4,p,li,tr')];
  for(const el of blocks){
-  const line=norm(el.textContent);if(!line)continue;
+  const line=norm(el.tagName==='TR'?[...el.querySelectorAll('th,td')].map(cell=>norm(cell.textContent)).join(' | '):el.textContent);if(!line)continue;
   const mh=line.match(monthRx);
   if(mh){activeMonth=monthNames.indexOf(mh[1].toLowerCase());if(mh[2])activeYear=Number(mh[2]);else if(activeMonth<previousMonth-6)activeYear++;previousMonth=activeMonth;continue}
   const range=line.match(rangeRx);
@@ -96,6 +96,7 @@ function parseSchoolEvents(html){
  // columns in the same visual row rather than one paragraph/list item.
  const seen=new Set(found.map(e=>dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title));
  for(const el of root.querySelectorAll('*')){
+  if(el.closest('tr')||['TD','TH'].includes(el.tagName))continue;
   const txt=norm(el.textContent);if(!txt||txt.length>100)continue;
   const m=txt.match(dateOnly);if(!m)continue;
   const month=Number(m[2])-1;if(month<0||month>11)continue;
