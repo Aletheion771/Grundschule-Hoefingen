@@ -3,7 +3,28 @@ const list=document.querySelector('#newslist'),status=document.querySelector('#s
 function plain(s){const d=document.createElement('div');d.innerHTML=s||'';return(d.textContent||'').replace(/\s+/g,' ').trim()}
 function date(s){return s?new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(s)):''}
 function eventDate(text){const m=text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/);if(!m)return null;return new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),23,59,59)}
-async function loadNews(){status.hidden=false;status.textContent='Neuigkeiten werden geladen …';try{const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error('Keine Beiträge');list.replaceChildren();posts.sort((a,b)=>new Date(b.date)-new Date(a.date));for(const p of posts){const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title+' '+excerpt),past=Boolean(event&&event<new Date()),card=document.createElement('article'),meta=document.createElement('div'),h=document.createElement('h3'),x=document.createElement('p'),link=document.createElement('a');if(past)card.classList.add('past');meta.className='meta';meta.textContent='SCHULNACHRICHTEN · '+date(p.date);if(past){const tag=document.createElement('span');tag.className='news-state';tag.textContent='VERGANGEN';meta.append(tag)}h.textContent=title;x.textContent=excerpt;link.href=p.link;link.target='_blank';link.rel='noopener';link.textContent='Beitrag lesen ↗';card.append(meta,h,x,link);list.append(card)}status.hidden=true;document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.'}catch(e){status.textContent='Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.';list.replaceChildren()}}
+async function loadNews(){
+ status.hidden=false;status.textContent='Neuigkeiten werden geladen …';
+ try{
+  const r=await fetch(api,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
+  const posts=await r.json();if(!Array.isArray(posts)||!posts.length)throw Error('Keine Beiträge');
+  list.replaceChildren();posts.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  posts.forEach((p,index)=>{
+   const title=plain(p.title?.rendered),excerpt=plain(p.excerpt?.rendered),event=eventDate(title+' '+excerpt),past=Boolean(event&&event<new Date());
+   const card=document.createElement('article'),meta=document.createElement('div'),content=document.createElement('div'),h=document.createElement('h3'),x=document.createElement('p'),link=document.createElement('a');
+   const media=p._embedded?.['wp:featuredmedia']?.[0],sizes=media?.media_details?.sizes||{},imageUrl=sizes.medium_large?.source_url||sizes.large?.source_url||media?.source_url;
+   if(index===0)card.classList.add('featured');if(past)card.classList.add('past');
+   meta.className='meta';meta.textContent=date(p.date);
+   if(index<2&&!past){const tag=document.createElement('span');tag.className='news-state news-new';tag.textContent='NEU';meta.append(tag)}
+   if(past){const tag=document.createElement('span');tag.className='news-state';tag.textContent='VERGANGEN';meta.append(tag)}
+   if(imageUrl){const image=document.createElement('img');image.className='news-image';image.src=imageUrl;image.alt=plain(media?.alt_text)||title;image.loading=index<2?'eager':'lazy';image.decoding='async';image.addEventListener('error',()=>image.remove(),{once:true});card.append(image)}
+   content.className='news-content';h.textContent=title;x.textContent=excerpt;
+   link.href=p.link;link.target='_blank';link.rel='noopener';link.textContent='Beitrag lesen ↗';
+   content.append(meta,h,x,link);card.append(content);list.append(card);
+  });
+  status.hidden=true;document.querySelector('#updated').textContent='Nachrichten werden bei jedem Öffnen und über ↻ aktualisiert.';
+ }catch(e){status.textContent='Nachrichten konnten gerade nicht automatisch geladen werden. Bitte die Schulhomepage öffnen.';list.replaceChildren()}
+}
 document.querySelector('#refresh').addEventListener('click',()=>{loadNews();loadSchoolCalendar(true)});loadNews();
 const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const monthMap=new Map(months.map((m,i)=>[m.toLowerCase(),i]));
@@ -94,4 +115,4 @@ function closeCalendar(){document.querySelector('#calendar').hidden=true}
 document.querySelectorAll('a[href="#calendar"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCalendar()}));
 document.querySelector('nav a[href="#"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'));window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelector('nav a[href="#news"]').addEventListener('click',e=>{e.preventDefault();closeCalendar();document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#news'));document.querySelector('#news').scrollIntoView({behavior:'smooth',block:'start'})});
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=21',{updateViaCache:'none'}).catch(()=>{}));
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=22',{updateViaCache:'none'}).catch(()=>{}));
