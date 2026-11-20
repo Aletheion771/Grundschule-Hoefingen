@@ -53,12 +53,13 @@ const calendarState={month:new Date(new Date().getFullYear(),new Date().getMonth
 function dayKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
 function makeDate(day,month,year){const d=new Date(year,month,day);return d.getFullYear()===year&&d.getMonth()===month&&d.getDate()===day?d:null}
 function parseSchoolEvents(html){
- const doc=new DOMParser().parseFromString(html,'text/html'),root=doc.querySelector('.entry-content,.page-content,main,article')||doc.body;
- const lines=(root.innerText||root.textContent||'').split(/\\n+/).map(s=>s.replace(/\\s+/g,' ').trim()).filter(Boolean),found=[];
+ const doc=new DOMParser().parseFromString(html,'text/html');
+ const root=doc.querySelector('.entry-content,.page-content,main,article')||doc.body;
+ const lines=(root.innerText||root.textContent||'').split(/\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(Boolean);
+ const found=[];
  let activeMonth=null,activeYear=new Date().getFullYear(),previousMonth=new Date().getMonth();
- const weekday='(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\\.?\\s*)?';
- const monthHeading=/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\\s+(20\\d{2}))?$/i;
- const datePattern=new RegExp(weekday+'(\\d{1,2})\\.\\s*(?:(\\d{1,2})\\.)?','gi');
+ const weekday='(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?';
+ const monthHeading=/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+(20\d{2}))?$/i;
  function inferredYear(month){
   if(activeMonth!==null)return month<activeMonth-6?activeYear+1:month>activeMonth+6?activeYear-1:activeYear;
   const now=new Date(),currentMonth=now.getMonth();
@@ -73,36 +74,54 @@ function parseSchoolEvents(html){
    previousMonth=activeMonth;
    continue;
   }
-  // Read each explicit DD.MM. date, including pages that omit month headings
-  // or place more than one dated event in a paragraph/list item.
-  // Date ranges such as "08. – 10.06. ..." must be handled before single dates.
-  const range=new RegExp('^'+weekday+'(\\d{1,2})\\.\\s*[–—-]\\s*(\\d{1,2})\\.(?:\\s*(\\d{1,2})\\.)?\\s*(?:\\|\\s*)?(.*)
+  // Datumsbereiche zuerst behandeln, z.B. "08. – 10.06. ..."
+  const range=new RegExp('^'+weekday+'(\\d{1,2})\\.\\s*[–—-]\\s*(\\d{1,2})\\.(?:\\s*(\\d{1,2})\\.)?\\s*(?:\\|\\s*)?(.*)$','i').exec(line);
+  if(range&&range[4]&&activeMonth!==null){
+   const endMonth=range[3]!==undefined?Number(range[3])-1:activeMonth;
+   const year=inferredYear(activeMonth),endYear=endMonth<activeMonth?year+1:year;
+   const first=makeDate(Number(range[1]),activeMonth,year),last=makeDate(Number(range[2]),endMonth,endYear);
+   if(first&&last&&last>=first)found.push({start:first,end:last,title:range[4].trim(),source:'Schulhomepage'});
+   continue;
+  }
+  // Explizite Datumsangaben DD.MM. unabhängig von Monatsüberschriften erfassen.
+  const datePattern=new RegExp(weekday+'(\\d{1,2})\\.\\s*(\\d{1,2})\\.','gi');
+  const matches=[...line.matchAll(datePattern)];
+  if(matches.length){
    for(let i=0;i<matches.length;i++){
     const m=matches[i],day=Number(m[1]),month=Number(m[2])-1;
     if(month<0||month>11)continue;
     const titleStart=m.index+m[0].length,next=matches[i+1]?.index??line.length;
-    const title=line.slice(titleStart,next).replace(/^\\s*[|,:;–—-]\\s*/,'').trim();
+    const title=line.slice(titleStart,next).replace(/^\s*[|,:;–—-]\s*/,'').trim();
     if(!title)continue;
     const year=inferredYear(month),date=makeDate(day,month,year);
     if(date)found.push({start:date,end:date,title,source:'Schulhomepage'});
    }
    continue;
   }
-  if(activeMonth===null)continue;
+  // Einträge mit Tag ohne Monatsangabe innerhalb einer Monatsüberschrift.
+  if(activeMonth!==null){
+   const single=new RegExp('^'+weekday+'(\\d{1,2})\\.\\s*(?:\\|\\s*)?(.+)$','i').exec(line);
+   if(single){
+    const date=makeDate(Number(single[1]),activeMonth,inferredYear(activeMonth));
+    if(date)found.push({start:date,end:date,title:single[2].trim(),source:'Schulhomepage'});
+   }
+  }
  }
- // Fallback for HTML tables with a date column and a description column.
+ // Tabellen mit Datum in der ersten und Beschreibung in der zweiten Spalte.
  if(!found.length){
   for(const row of doc.querySelectorAll('tr')){
    const cells=[...row.querySelectorAll('th,td')].map(c=>plain(c.textContent));
    if(cells.length<2)continue;
-   const m=cells[0].match(/(\\d{1,2})\\.(\\d{1,2})\\.(\\d{2,4})?/);
+   const m=cells[0].match(/(\d{1,2})\.(\d{1,2})\.(\d{2,4})?/);
    if(!m)continue;
-   let year=m[3]?Number(m[3]):inferredYear(Number(m[2])-1);if(year<100)year+=2000;
+   let year=m[3]?Number(m[3]):inferredYear(Number(m[2])-1);
+   if(year<100)year+=2000;
    const first=makeDate(Number(m[1]),Number(m[2])-1,year);
    if(first)found.push({start:first,end:first,title:cells.slice(1).join(' · '),source:'Schulhomepage'});
   }
  }
- const unique=new Map();for(const e of found)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);
+ const unique=new Map();
+ for(const e of found)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);
  return [...unique.values()].sort((a,b)=>a.start-b.start);
 }
 function officialCareEvents(){
