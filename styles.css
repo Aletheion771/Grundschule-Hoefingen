@@ -111,3 +111,11 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 /* Version 29 – Informationen zur Schulkindbetreuung */
 .info-section{scroll-margin-top:100px}
 .info-card a:not(.info-call){color:var(--blue);font-weight:700}
+
+/* Version 31 – Formulare und Unterrichtszeiten in der App */
+.document-link-list{display:grid;gap:8px;margin:15px 0}
+.document-link-list a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 15px;border:1px solid var(--line);border-radius:13px;background:#f9fbfc;color:var(--navy);text-decoration:none}
+.document-link-list a span{display:grid;gap:2px}.document-link-list a b{font:800 14px Manrope,sans-serif}.document-link-list a small{font-size:12px;color:var(--muted)}.document-link-list a i{font-style:normal;color:var(--blue);font-size:21px}
+.schedule-group{padding:12px 0;border-top:1px solid var(--line)}
+.schedule-group h3{margin:0 0 6px;font-size:16px}
+.schedule-group p{margin:0;font-size:14px;line-height:1.7}
