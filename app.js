@@ -204,3 +204,48 @@ function renderFoerderverein(data){
  if(list&&data.activities?.length){list.replaceChildren();data.activities.forEach(a=>{const item=document.createElement('div'),b=document.createElement('b'),p=document.createElement('p');b.textContent=a.title;p.textContent=a.description;item.append(b,p);list.append(item)});}
 }
 loadFoerderverein();
+
+/* Unterrichtszeiten, Betreuung und Formulare live aus WordPress laden */
+const schoolPageSources=[
+ {slug:'unterrichtszeiten',id:'unterrichtszeiten-info',key:'schedule'},
+ {slug:'schulkindbetreuung',id:'betreuung-info',key:'care'},
+ {slug:'formulare',id:'formulare-info',key:'forms'}
+];
+function safeSchoolFragment(markup){
+ const parsed=new DOMParser().parseFromString(markup,'text/html');
+ const source=parsed.querySelector('.entry-content,.page-content,main,article')||parsed.body;
+ const allowed=new Set(['H2','H3','H4','P','UL','OL','LI','A','STRONG','B','EM','BR','HR']);
+ function cloneSafe(n){
+  if(n.nodeType===Node.TEXT_NODE)return document.createTextNode(n.textContent);
+  if(n.nodeType!==Node.ELEMENT_NODE)return document.createDocumentFragment();
+  if(!allowed.has(n.tagName)){const f=document.createDocumentFragment();n.childNodes.forEach(c=>f.append(cloneSafe(c)));return f;}
+  const e=document.createElement(n.tagName.toLowerCase());
+  if(n.tagName==='A'){
+   const href=n.getAttribute('href')||'';
+   let valid=false;try{const u=new URL(href,'https://grundschule-hoefingen.de/');valid=u.hostname==='grundschule-hoefingen.de'&&u.protocol==='https:'}catch(_){}
+   if(valid||/^(mailto:|tel:)/i.test(href)){e.href=href;if(valid){e.target='_blank';e.rel='noopener'}}
+  }
+  n.childNodes.forEach(c=>e.append(cloneSafe(c)));return e;
+ }
+ const f=document.createDocumentFragment();source.childNodes.forEach(n=>f.append(cloneSafe(n)));return f;
+}
+async function loadSchoolInfoPages(){
+ await Promise.all(schoolPageSources.map(async src=>{
+  const card=document.querySelector('#'+src.id+' .info-card'),status=document.querySelector('#'+src.key+'-sync-status');if(!card)return;
+  const cacheKey='gs-hoefingen-page-'+src.slug+'-v1',setStatus=t=>{if(status)status.textContent=t};
+  try{
+   const r=await fetch('https://grundschule-hoefingen.de/wp-json/wp/v2/pages?slug='+src.slug+'&_fields=content,title,link',{cache:'no-store'});
+   if(!r.ok)throw Error('HTTP '+r.status);
+   const pages=await r.json();if(!Array.isArray(pages)||!pages[0]?.content?.rendered)throw Error('Seite nicht gefunden');
+   const markup=pages[0].content.rendered,doc=new DOMParser().parseFromString(markup,'text/html'),content=doc.querySelector('.entry-content,.page-content,main,article')||doc.body;
+   if(!content.textContent.trim())throw Error('Kein Inhalt');
+   localStorage.setItem(cacheKey,JSON.stringify({html:content.innerHTML,updated:new Date().toISOString()}));
+   card.replaceChildren(safeSchoolFragment(content.innerHTML));
+   setStatus('Aktuelle Inhalte von der Schulhomepage · zuletzt geladen: '+new Date().toLocaleString('de-DE'));
+  }catch(e){
+   try{const old=JSON.parse(localStorage.getItem(cacheKey)||'null');if(old?.html){card.replaceChildren(safeSchoolFragment(old.html));setStatus('Gespeicherter Stand · Aktualisierung derzeit nicht möglich');return}}catch(_){}
+   setStatus('Homepage-Inhalte konnten nicht aktualisiert werden. Bitte die Schulhomepage öffnen.');
+  }
+ }));
+}
+loadSchoolInfoPages();
