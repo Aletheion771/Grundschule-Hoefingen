@@ -40,3 +40,12 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .news-feed article.featured p{-webkit-line-clamp:4;min-height:6em}
 .news-feed article.past{opacity:.78}
 @media(max-width:600px){.news-feed{grid-template-columns:1fr}.news-feed article.featured{grid-column:auto;display:flex}.news-feed article.featured .news-image{height:190px;min-height:0;max-height:none}.news-feed article.featured .news-content{padding:20px}.news-feed article.featured h3{font-size:22px}.news-feed article p{min-height:0}}
+
+/* Version 23 – fokussierte Schnellzugriffe */
+.quick-list{border-top:1px solid var(--line);max-width:760px}
+.quick-link{padding:13px 8px;gap:15px}
+.quick-icon{width:43px;height:43px;flex-basis:43px}
+.quick-link b{font-size:17px}
+.quick-link small{font-size:13px}
+.q-support .quick-icon{background:#eff6d7;color:#526d18}
+@media(max-width:600px){.quick-link{padding:12px 3px;gap:13px}.quick-icon{width:41px;height:41px;flex-basis:41px}.quick-link b{font-size:16px}.quick-link small{font-size:12px}}
