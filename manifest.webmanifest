@@ -9,15 +9,9 @@
   "theme_color": "#0b4772",
   "icons": [
     {
-      "src": "./app-icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./app-icon.svg",
+      "src": "https://grundschule-hoefingen.de/wp-content/uploads/2023/03/logo-gsh_web-300x281.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     }
   ]
