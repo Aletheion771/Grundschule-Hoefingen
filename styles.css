@@ -240,3 +240,7 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .fv-contact a,.fv-homepage-link{font-size:13px;font-weight:800;color:var(--blue);text-decoration:none}
 .fv-homepage-link{display:inline-flex;margin:8px 0}
 @media(max-width:390px){.fv-brand img{width:70px;height:70px;flex-basis:70px}.fv-brand strong{font-size:15px}.fv-fee-panel{grid-template-columns:1fr}.fv-fee-panel>a{grid-column:1;grid-row:auto;justify-self:start}}
+
+/* Dynamischer Förderverein-Inhalt */
+.fv-sync-status{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:11px;color:#718391}
+.fv-dynamic-intro p{font-size:14px;line-height:1.65;color:#536b7c;margin:0 0 11px}
