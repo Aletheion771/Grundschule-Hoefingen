@@ -207,7 +207,7 @@ loadFoerderverein();
 
 /* Unterrichtszeiten, Betreuung und Formulare live aus WordPress laden */
 const schoolPageSources=[
- {slug:'unterrichtszeiten',id:'unterrichtszeiten-info',key:'schedule'},
+ 
  {slug:'schulkindbetreuung',id:'betreuung-info',key:'care'},
  {slug:'formulare',id:'formulare-info',key:'forms'}
 ];
