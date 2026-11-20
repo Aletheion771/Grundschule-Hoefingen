@@ -401,3 +401,27 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 @media(min-width:700px){.info-tile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.info-tile{min-height:190px;padding:22px}}
 @media(max-width:380px){.info-tile-grid{gap:10px}.info-tile{min-height:158px;padding:14px 12px;border-radius:18px}.tile-icon{width:50px;height:50px}.tile-icon svg{width:37px;height:37px}.tile-title{font-size:14px}.tile-subtitle{font-size:11px}}
 :root[data-theme="dark"] .info-tile{filter:brightness(.78) saturate(.85)}
+
+/* Frischer, markanter Kopfbereich mit Schulfarben */
+.top{height:88px;padding:0 max(18px,calc((100vw - 1000px)/2));background:linear-gradient(112deg,#ffffff 0%,#f4fbff 62%,#e6f6fb 100%);border-bottom:0;box-shadow:0 5px 22px rgba(16,65,96,.10);isolation:isolate}
+.top:before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;height:9px;background:linear-gradient(90deg,#16a6c7 0%,#37c3b0 45%,#a6d72d 100%);clip-path:polygon(0 0,100% 0,100% 48%,78% 100%,54% 42%,30% 100%,0 45%)}
+.brand{gap:0;min-width:0}
+.brand .school-logo{display:block;width:clamp(132px,22vw,174px);height:66px;object-fit:contain;object-position:left center;filter:drop-shadow(0 2px 2px rgba(20,60,80,.08))}
+.top-actions{display:flex;align-items:center;gap:9px}
+.top-actions>button,.secure-menu>summary{width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;background:#e5f3fa;color:#12628e;font-size:23px;cursor:pointer;box-shadow:0 3px 10px rgba(20,75,105,.10)}
+.secure-menu{position:relative}
+.secure-menu>summary{list-style:none}
+.secure-menu>summary::-webkit-details-marker{display:none}
+.secure-menu>summary svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.top-actions>button{background:#146b9c;color:#fff;font-weight:700}
+.top-actions>button:hover,.secure-menu>summary:hover{transform:translateY(-1px)}
+:root[data-theme="dark"] .top{background:linear-gradient(112deg,#182f3c 0%,#1c3d4c 70%,#244b50 100%)}
+:root[data-theme="dark"] .top-actions>button,:root[data-theme="dark"] .secure-menu>summary{background:#31566a;color:#eaf8ff}
+@media(max-width:420px){.top{height:78px;padding:0 13px}.brand .school-logo{width:130px;height:58px}.top-actions{gap:7px}.top-actions>button,.secure-menu>summary{width:38px;height:38px}}
+/* Termine: grüne Tage mit Schulveranstaltungen, Ferien bleiben orange */
+.calendar-day.has-school-event{background:#edf5d5;color:#49651a;font-weight:900}
+.calendar-day.has-school-event:after{background:#8eb52c}
+.calendar-day.selected.has-school-event{background:var(--blue);color:#fff}
+.calendar-day.selected.has-school-event:after{background:#fff}
+:root[data-theme="dark"] .calendar-day.has-school-event{background:#3e4c2e;color:#d9edaa}
+:root[data-theme="dark"] .calendar-day.selected.has-school-event{background:var(--blue);color:#fff}
