@@ -479,3 +479,9 @@ footer{padding:0 18px 22px;text-align:center;color:#8093a2;font-size:12px;line-h
 .top-actions{gap:4px!important}
 .top-actions>button,.top-actions>.secure-menu>summary{width:36px!important;height:36px!important}
 }
+
+/* Mehrfachkategorien: geteilte Tagesfläche statt Vorrang einer Farbe */
+.calendar-day.has-holiday.has-school-event{background:linear-gradient(135deg,#fff0d9 0 50%,#edf5d5 50% 100%);color:#49651a}
+.calendar-day.selected.has-holiday.has-school-event{background:var(--blue);color:#fff}
+.calendar-day.selected.has-holiday.has-school-event:after{background:#fff}
+.calendar-legend .association-legend i{background:#2878c7}
