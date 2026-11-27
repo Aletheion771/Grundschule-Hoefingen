@@ -105,7 +105,7 @@ nav[aria-label="Hauptnavigation"] a.active{background:var(--yellow)}
 nav[aria-label="Hauptnavigation"] small{font:700 14px Fredoka;color:var(--ink)}
 footer{padding:24px 18px 20px;text-align:center;color:var(--ink);font:12px/1.5 Inter}
 footer a{border-bottom:2px solid var(--coral);text-decoration:none}
-:root[data-theme="dark"]{color-scheme:light;--coral:#F1705A;--yellow:#FFE35C;--lila:#B89CF1;--paper:#F6F0E2;--ink:#141414}:root[data-theme="dark"] .info-tile,:root[data-theme="dark"] .agenda-item,:root[data-theme="dark"] .calendar-day{filter:none!important;color:var(--ink)!important}:root[data-theme="dark"] .agenda-item.holiday-item{background:var(--yellow)!important}:root[data-theme="dark"] .agenda-item.association-item{background:var(--lila)!important}:root[data-theme="dark"] .agenda-item:not(.holiday-item):not(.association-item){background:var(--coral)!important}
+:root[data-theme="dark"]{color-scheme:light;--coral:#F1705A;--yellow:#FFE35C;--lila:#B89CF1;--paper:#F6F0E2;--ink:#141414}:root[data-theme="dark"] .info-tile,:root[data-theme="dark"] .agenda-item,:root[data-theme="dark"] .calendar-day{filter:none!important;color:var(--ink)!important}:root[data-theme="dark"] .agenda-item.holiday-item{background:var(--yellow)!important}:root[data-theme="dark"] .agenda-item.association-item,.agenda-item.care-item{background:var(--lila)!important}.agenda-item.closed-item{background:var(--coral)!important}:root[data-theme="dark"] .agenda-item:not(.holiday-item):not(.association-item){background:var(--coral)!important}
 .care-feature,.care-contact,.care-hours,.care-holiday,.fv-brand,.fv-fee-panel,.fv-activities-list>div,.fv-contact,.schedule-notice,.day-card,.period-block{background:var(--paper)!important;color:var(--ink)!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 .care-feature:nth-of-type(3n+1),.fv-activities-list>div:nth-child(3n+1),.day-card:nth-child(3n+1){background:var(--lila)!important}
 .care-feature:nth-of-type(3n+2),.fv-activities-list>div:nth-child(3n+2),.day-card:nth-child(3n+2){background:var(--coral)!important}
@@ -159,8 +159,8 @@ footer a{border-bottom:2px solid var(--coral);text-decoration:none}
 .secure-panel{border:1.5px solid var(--ink)!important;border-radius:0!important;box-shadow:4px 4px 0 var(--ink)!important}
 .agenda-item{display:grid!important;grid-template-columns:76px minmax(0,1fr) 58px!important;align-items:center!important;gap:14px!important;padding:16px!important;background:var(--coral)!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:var(--ink)!important}
 .agenda-item.holiday-item{background:var(--yellow)!important}
-.agenda-item.association-item{background:var(--lila)!important}
-.agenda-item:has(.event-category:not(.holiday-category):not(.association-category)){background:var(--paper)!important}
+.agenda-item.association-item,.agenda-item.care-item{background:var(--lila)!important}
+.agenda-item:has(.event-category:not(.holiday-category):not(.association-category):not(.care-category)){background:var(--coral)!important}
 .agenda-date,.agenda-date.holiday-date,.agenda-date.association-date,.agenda-date:not(.holiday-date){min-height:76px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;padding:8px 4px!important;background:rgba(255,255,255,.52)!important;border:0!important;border-radius:0!important;color:var(--ink)!important;text-align:center!important}
 .agenda-date b{font:700 29px/1 Fredoka,sans-serif!important;color:var(--ink)!important}
 .agenda-date small{font:700 13px/1 Inter,sans-serif!important;color:var(--ink)!important;text-transform:uppercase}
