@@ -219,3 +219,53 @@ button,a,.calendar-day,.event-category,.agenda-date,.calendar-legend i{color:var
 .welcome:after{content:"";text-shadow:none}
 .info-tile .tile-icon,.quick-icon{color:var(--ink)!important}
 .info-tile .tile-icon svg,.quick-icon svg{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+
+/* Screenshot-Korrektur: Moodboard-Kontraste sichtbar machen, alte Theme-Farben übersteuern */
+.top:before,.top:after{display:none!important}
+.top{background:#f6f0e2!important;border-bottom:2px solid #141414!important;box-shadow:none!important}
+.welcome h1 em{text-decoration:none!important;color:#f1705a!important}
+.welcome{background:#ffe35c!important}
+.welcome:after{filter:none!important}
+
+/* Agenda: Kategorien erhalten die tatsächlichen Moodboard-Farbflächen */
+#calendar .calendar-agenda .agenda-item:not(.holiday-item):not(.association-item){
+ background:#f1705a!important;border:1.5px solid #141414!important;border-left:7px solid #141414!important;color:#141414!important
+}
+#calendar .calendar-agenda .agenda-item.holiday-item{
+ background:#ffe35c!important;border:1.5px solid #141414!important;border-left:7px solid #141414!important;color:#141414!important
+}
+#calendar .calendar-agenda .agenda-item.association-item{
+ background:#b89cf1!important;border:1.5px solid #141414!important;border-left:7px solid #141414!important;color:#141414!important
+}
+#calendar .calendar-agenda .agenda-date,
+#calendar .calendar-agenda .agenda-date:not(.holiday-date),
+#calendar .calendar-agenda .agenda-date.holiday-date,
+#calendar .calendar-agenda .agenda-date.association-date{
+ background:#f6f0e2!important;color:#141414!important;border:1.5px solid #141414!important
+}
+#calendar .calendar-agenda .event-category,
+#calendar .calendar-agenda .event-category.holiday-category,
+#calendar .calendar-agenda .event-category.association-category{
+ background:#f6f0e2!important;color:#141414!important;border:1px solid #141414!important
+}
+#calendar .calendar-day.has-event{background:#f1705a!important;color:#141414!important}
+#calendar .calendar-day.has-holiday{background:#ffe35c!important;color:#141414!important}
+#calendar .calendar-day.has-association-event{background:#b89cf1!important;color:#141414!important}
+#calendar .calendar-day.has-holiday.has-school-event{
+ background:linear-gradient(135deg,#ffe35c 0 50%,#f1705a 50% 100%)!important;color:#141414!important
+}
+#calendar .calendar-day.selected,
+#calendar .calendar-day.selected.has-holiday,
+#calendar .calendar-day.selected.has-association-event,
+#calendar .calendar-day.selected.has-holiday.has-school-event{
+ background:#b89cf1!important;color:#141414!important;outline:2px solid #141414!important
+}
+#calendar .calendar-legend{color:#141414!important}
+#calendar .calendar-legend span:nth-child(1) i{background:#f1705a!important}
+#calendar .calendar-legend .holiday-legend i{background:#ffe35c!important}
+#calendar .calendar-legend .association-legend i{background:#b89cf1!important}
+#calendar .calendar-legend i{width:12px!important;height:12px!important;border:1px solid #141414!important}
+#calendar .calendar-card{background:#f6f0e2!important}
+#calendar .calendar-view-switch{background:#f6f0e2!important}
+#calendar .view-choice.active{background:#b89cf1!important;color:#141414!important}
