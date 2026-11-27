@@ -72,12 +72,12 @@ main{width:min(100% - 40px,980px);margin:24px auto 0}
 .calendar-card{padding:18px;background:var(--paper);border:0;border-radius:0;box-shadow:none}
 .calendar-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .calendar-toolbar h3{margin:0;font:700 24px Fredoka}
-.calendar-toolbar button{width:38px;height:38px;border:0;border-radius:50%;background:var(--yellow);font:700 25px Fredoka}
+.calendar-toolbar button{width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--yellow);font:700 25px Fredoka}.calendar-toolbar button svg{width:30px;height:30px;display:block}
 .calendar-weekdays,.calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
 .calendar-weekdays{margin-bottom:7px;text-align:center;font:700 12px Inter}
 .calendar-day{position:relative;min-height:40px;padding:5px 0;border:0;border-radius:0;background:var(--paper);font:600 14px Inter;cursor:pointer}
 .calendar-day.outside{opacity:.32}.calendar-day.today{outline:2px solid var(--ink);outline-offset:-2px}
-.calendar-day.has-event{background:var(--coral)}.calendar-day.has-holiday{background:var(--yellow)}.calendar-day.has-association-event{background:var(--lila)}
+.calendar-day.has-event,.calendar-day.has-school-event{background:var(--coral)!important}.calendar-day.has-holiday{background:var(--yellow)!important}.calendar-day.has-association-event{background:var(--lila)!important}.calendar-day.has-holiday.has-school-event{background:linear-gradient(135deg,var(--yellow) 0 50%,var(--coral) 50% 100%)!important}.calendar-day.selected.has-holiday.has-school-event{background:var(--lila)!important}
 .calendar-day.selected{box-shadow:inset 0 0 0 2px var(--ink)}
 .calendar-legend{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin-top:16px;font:13px Inter}
 .calendar-legend span{display:inline-flex;align-items:center;gap:6px}
@@ -105,7 +105,7 @@ nav[aria-label="Hauptnavigation"] a.active{background:var(--yellow)}
 nav[aria-label="Hauptnavigation"] small{font:700 14px Fredoka;color:var(--ink)}
 footer{padding:24px 18px 20px;text-align:center;color:var(--ink);font:12px/1.5 Inter}
 footer a{border-bottom:2px solid var(--coral);text-decoration:none}
-:root[data-theme="dark"]{color-scheme:light;--coral:#F1705A;--yellow:#FFE35C;--lila:#B89CF1;--paper:#F6F0E2;--ink:#141414}
+:root[data-theme="dark"]{color-scheme:light;--coral:#F1705A;--yellow:#FFE35C;--lila:#B89CF1;--paper:#F6F0E2;--ink:#141414}:root[data-theme="dark"] .info-tile,:root[data-theme="dark"] .agenda-item,:root[data-theme="dark"] .calendar-day{filter:none!important;color:var(--ink)!important}:root[data-theme="dark"] .agenda-item.holiday-item{background:var(--yellow)!important}:root[data-theme="dark"] .agenda-item.association-item{background:var(--lila)!important}:root[data-theme="dark"] .agenda-item:not(.holiday-item):not(.association-item){background:var(--coral)!important}
 .care-feature,.care-contact,.care-hours,.care-holiday,.fv-brand,.fv-fee-panel,.fv-activities-list>div,.fv-contact,.schedule-notice,.day-card,.period-block{background:var(--paper)!important;color:var(--ink)!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 .care-feature:nth-of-type(3n+1),.fv-activities-list>div:nth-child(3n+1),.day-card:nth-child(3n+1){background:var(--lila)!important}
 .care-feature:nth-of-type(3n+2),.fv-activities-list>div:nth-child(3n+2),.day-card:nth-child(3n+2){background:var(--coral)!important}
