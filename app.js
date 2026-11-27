@@ -251,10 +251,9 @@ window.googleTranslateElementInit=function(){
  if(pending)translateWholePage(pending);
 };
 function applyLogo(){
- const choice=localStorage.getItem('gs-logo')||'school';
  const logo=document.querySelector('.brand .school-logo');
- if(logo){logo.src=choice==='community'?'https://grundschule-hoefingen.de/wp-content/uploads/Alternativlogo.png':'./school-logo-clean.jpg';}
- document.querySelectorAll('[data-logo-choice]').forEach(b=>b.classList.toggle('active',b.dataset.logoChoice===choice));
+ if(logo){logo.src='./foerderverein-logo.svg';logo.alt='Förderverein Grundschule Höfingen';}
+ document.querySelectorAll('[data-logo-choice]').forEach(b=>b.classList.toggle('active',b.dataset.logoChoice==='community'));
 }
 document.querySelectorAll('[data-logo-choice]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('gs-logo',b.dataset.logoChoice);applyLogo()}));
 function applyTheme(){
