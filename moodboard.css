@@ -200,3 +200,18 @@ footer a{border-bottom:2px solid var(--coral);text-decoration:none}
  .beta-label{font-size:9px!important;padding:4px 5px!important}
  .top-actions>button,.top-actions>.secure-menu>summary{width:34px!important;height:34px!important}
 }
+
+/* Header: official Förderverein logo, transparent SVG */
+.top{height:88px;min-height:88px;align-items:flex-start;padding-top:8px;padding-bottom:8px;background:var(--paper);border-bottom:2px solid var(--ink)}
+.top .brand{height:68px;width:min(54vw,250px);display:flex;align-items:center;flex:0 1 auto}
+.top .brand .school-logo{display:block;width:100%;height:auto;max-height:68px;max-width:250px;object-fit:contain;object-position:left center}
+.top .beta-label{top:auto;bottom:7px;left:50%;transform:translateX(-50%);padding:3px 8px;background:var(--yellow);border:1.5px solid var(--ink);border-radius:999px;color:var(--ink);font:600 9px/1.1 Inter;z-index:1}
+.top .top-actions{margin-top:7px;gap:7px}
+@media(max-width:600px){
+ .top{height:82px;min-height:82px;padding:6px 9px 7px}
+ .top .brand{width:calc(100% - 95px);height:60px;max-width:220px}
+ .top .brand .school-logo{max-height:58px;max-width:220px}
+ .top .beta-label{bottom:4px;font-size:8px;padding:2px 7px}
+ .top .top-actions{margin-top:3px;gap:5px}
+ .top .top-actions>button,.top .top-actions>.secure-menu>summary{width:34px;height:34px}
+}
