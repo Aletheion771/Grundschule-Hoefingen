@@ -381,7 +381,7 @@ function safeSchoolFragment(markup){
  const f=document.createDocumentFragment();source.childNodes.forEach(n=>f.append(cloneSafe(n)));return f;
 }
 async function loadSchoolInfoPages(){
- await Promise.all(schoolPageSources.map(async src=>{
+ await Promise.all(schoolPageSources.filter(src=>src.key!=='forms').map(async src=>{
   const card=document.querySelector('#'+src.id+' .info-card'),status=document.querySelector('#'+src.key+'-sync-status');if(!card)return;
   const cacheKey='gs-hoefingen-page-'+src.slug+'-v1',setStatus=t=>{if(status)status.textContent=t};
   try{
