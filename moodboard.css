@@ -269,3 +269,58 @@ button,a,.calendar-day,.event-category,.agenda-date,.calendar-legend i{color:var
 #calendar .calendar-card{background:#f6f0e2!important}
 #calendar .calendar-view-switch{background:#f6f0e2!important}
 #calendar .view-choice.active{background:#b89cf1!important;color:#141414!important}
+
+
+/* Detailansichten: blaue Standard-UI konsequent in Moodboard-Tinte überführen */
+#info-detail-view,#info-detail-view *{--blue:#141414;--navy:#141414}
+#info-detail-title,.info-detail-title,
+#info-detail-content h1,#info-detail-content h2,#info-detail-content h3,
+#info-detail-content h4,#info-detail-content strong,
+#info-detail-content .schedule-card .schedule-item summary,
+#info-detail-content .day-row>b,
+#info-detail-content .day-row>span{color:#141414!important}
+#info-detail-content .info-card,
+#info-detail-content .schedule-card,
+#info-detail-content .foerderverein-card,
+#info-detail-content .info-section-item,
+#info-detail-content .schedule-item{
+ background:#f6f0e2!important;border-color:#141414!important;box-shadow:none!important
+}
+#info-detail-content .schedule-card .schedule-notice{
+ background:#ffe35c!important;border:1.5px solid #141414!important;border-left:5px solid #141414!important;color:#141414!important
+}
+#info-detail-content .schedule-card .schedule-notice strong,
+#info-detail-content .schedule-card .schedule-notice p{color:#141414!important}
+#info-detail-content .schedule-card .schedule-item:nth-child(3n+1){background:#f1705a!important;border-color:#141414!important}
+#info-detail-content .schedule-card .schedule-item:nth-child(3n+2){background:#ffe35c!important;border-color:#141414!important}
+#info-detail-content .schedule-card .schedule-item:nth-child(3n){background:#b89cf1!important;border-color:#141414!important}
+#info-detail-content .day-row{background:#f6f0e2!important;border:1.5px solid #141414!important}
+#info-detail-content .day-row.has-afternoon{background:#ffe35c!important}
+#info-detail-content .schedule-source,
+#info-detail-content .info-card a:not(.info-call){color:#141414!important;text-decoration-color:#f1705a!important}
+#info-detail-content .info-call,
+#info-detail-content .info-call.secondary{background:#ffe35c!important;color:#141414!important;border:1.5px solid #141414!important}
+#info-detail-content .info-note{color:#141414!important}
+#info-detail-content .schedule-card [class*="icon"],
+#info-detail-content .info-card [class*="icon"]{
+ background:#ffe35c!important;color:#141414!important;border-color:#141414!important
+}
+#info-detail-content .schedule-card svg,
+#info-detail-content .info-card svg{color:#141414!important;stroke:#141414!important}
+
+/* Kopf-Aktionen: keine blauen Symbole oder blauen Buttonflächen */
+.top-actions>button,.top-actions>button#refresh,
+.top-actions>.secure-menu>summary{
+ background:#ffe35c!important;color:#141414!important;border:2px solid #141414!important;box-shadow:none!important
+}
+.top-actions svg,.top-actions button svg,.secure-menu summary svg{
+ color:#141414!important;stroke:#141414!important
+}
+.secure-panel{background:#f6f0e2!important;border:2px solid #141414!important;box-shadow:4px 4px 0 #141414!important}
+.secure-panel *{color:#141414!important}
+
+/* Startseite: Abstand unter dem fixierten Kopfbereich, damit das Ö-Motiv nicht angeschnitten wird */
+@media(max-width:600px){
+ .welcome{margin-top:30px!important}
+ .welcome-copy{padding-top:28px!important;padding-bottom:28px!important}
+}
