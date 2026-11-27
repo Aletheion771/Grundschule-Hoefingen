@@ -214,3 +214,8 @@ button,a,.calendar-day,.event-category,.agenda-date,.calendar-legend i{color:var
 .document-item,.schedule-item,.news-feed article{background:var(--paper);border-color:var(--ink)}
 .info-tile:nth-child(4n),.news-feed article{color:var(--ink)}
 .info-tile .tile-subtitle,.news-feed article p,.contact p{color:var(--ink)}
+
+/* Originales Ö-Signet aus dem Moodboard – unverändert als Bildmotiv */
+.welcome:after{content:"";text-shadow:none}
+.info-tile .tile-icon,.quick-icon{color:var(--ink)!important}
+.info-tile .tile-icon svg,.quick-icon svg{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
