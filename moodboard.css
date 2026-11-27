@@ -324,3 +324,72 @@ button,a,.calendar-day,.event-category,.agenda-date,.calendar-legend i{color:var
  .welcome{margin-top:30px!important}
  .welcome-copy{padding-top:28px!important;padding-bottom:28px!important}
 }
+
+
+/* Moodboard-Annäherung: kräftige Kacheln und handgezeichnete Funktionszeichen */
+.info-tile-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin:16px 0 24px!important}
+.info-tile{
+ min-height:138px!important;padding:12px 9px 13px!important;border:1.5px solid #141414!important;
+ border-radius:17px!important;box-shadow:none!important;gap:7px!important;align-items:center!important;text-align:center!important;
+ color:#141414!important;overflow:hidden
+}
+.info-tile:nth-child(5n+1){background:#f1705a!important}
+.info-tile:nth-child(5n+2){background:#b89cf1!important}
+.info-tile:nth-child(5n+3){background:#ffe35c!important}
+.info-tile:nth-child(5n+4){background:#f1705a!important}
+.info-tile:nth-child(5n){background:#b89cf1!important}
+.info-tile .tile-icon{
+ width:56px!important;height:56px!important;display:grid!important;place-items:center!important;
+ border-radius:0!important;background:transparent!important
+}
+.info-tile .tile-icon svg{
+ width:54px!important;height:54px!important;overflow:visible!important;
+ fill:none!important;stroke:#141414!important;stroke-width:3!important;stroke-linecap:round!important;stroke-linejoin:round!important
+}
+.info-tile .tile-icon svg [fill="#F6F0E2"]{fill:#f6f0e2!important}
+.info-tile .tile-icon svg [fill="#FFE35C"]{fill:#ffe35c!important}
+.info-tile .tile-icon svg [fill="#B89CF1"]{fill:#b89cf1!important}
+.info-tile .tile-icon svg [fill="#F1705A"]{fill:#f1705a!important}
+.info-tile .tile-title{
+ color:#141414!important;font:700 14px/1.05 Fredoka,sans-serif!important;
+ text-transform:uppercase!important;letter-spacing:.1px!important;overflow-wrap:anywhere
+}
+.info-tile .tile-subtitle{display:none!important}
+.info-tile .tile-arrow{right:7px!important;bottom:5px!important;color:#141414!important;font-size:22px!important}
+.info-tile:active{transform:scale(.97)}
+.info-tile:focus-visible{outline:3px solid #141414!important;outline-offset:3px!important}
+
+/* Detailkarten und Service-Listen als warme Papierkarten statt sterile weiße/bläuliche UI */
+#info-detail-content .info-card,
+#info-detail-content .foerderverein-card,
+#info-detail-content .schedule-card,
+#info-detail-content .schedule-item,
+#info-detail-content .document-item{
+ background:#f6f0e2!important;border:1.5px solid #141414!important;box-shadow:none!important
+}
+#info-detail-content .document-item:nth-child(3n+1){background:#f1705a!important}
+#info-detail-content .document-item:nth-child(3n+2){background:#ffe35c!important}
+#info-detail-content .document-item:nth-child(3n){background:#b89cf1!important}
+#info-detail-content .info-call{background:#ffe35c!important;color:#141414!important;border:1.5px solid #141414!important}
+
+/* Dezente Doodle-Strahlen an der Begrüßung, nur in Moodboard-Farben */
+.welcome{position:relative;overflow:hidden}
+.welcome-copy{position:relative;z-index:1}
+.welcome:before{
+ content:"";position:absolute;left:25px;top:24px;width:40px;height:40px;
+ background:
+ linear-gradient(#f1705a,#f1705a) 18px 0/3px 13px no-repeat,
+ linear-gradient(#f1705a,#f1705a) 0 17px/13px 3px no-repeat,
+ linear-gradient(#f1705a,#f1705a) 6px 5px/3px 12px no-repeat;
+ transform:rotate(-25deg);opacity:.95
+}
+@media(max-width:600px){
+ .info-tile-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+ .info-tile{min-height:124px!important;padding:9px 5px 11px!important;border-radius:15px!important}
+ .info-tile .tile-icon{width:48px!important;height:48px!important}
+ .info-tile .tile-icon svg{width:47px!important;height:47px!important}
+ .info-tile .tile-title{font-size:12px!important}
+}
+@media(max-width:350px){
+ .info-tile-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
