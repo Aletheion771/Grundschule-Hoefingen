@@ -144,3 +144,59 @@ footer a{border-bottom:2px solid var(--coral);text-decoration:none}
  nav[aria-label="Hauptnavigation"] small{font-size:13px}
 }
 @media(max-width:360px){.info-tile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.info-tile{min-height:120px}.welcome-copy{width:70%}.welcome-signet{width:34%}}
+
+/* FINAL REFINEMENT — Header and calendar */
+.top:before{display:none!important}
+.top{height:88px!important;min-height:88px!important;padding:8px 16px!important;gap:12px!important;background:var(--paper)!important;border-bottom:2px solid var(--ink)!important;box-shadow:none!important}
+.brand{height:100%;display:flex!important;align-items:center!important;flex:0 0 auto!important}
+.brand .school-logo{width:112px!important;height:68px!important;max-width:112px!important;object-fit:contain!important;object-position:left center!important;filter:none!important}
+.beta-label{display:flex!important;align-items:center!important;gap:7px!important;margin:0 auto!important;padding:6px 10px!important;border:1.5px solid var(--ink)!important;border-radius:999px!important;background:var(--yellow)!important;color:var(--ink)!important;font:600 11px/1 Inter,sans-serif!important;letter-spacing:0!important;white-space:nowrap!important}
+.beta-label .build-number{font:800 11px Inter,sans-serif!important}
+.beta-dot{width:7px;height:7px;border-radius:50%;background:var(--coral);display:inline-block}
+.top-actions{display:flex!important;align-items:center!important;gap:8px!important;margin-left:auto!important}
+.top-actions>button,.top-actions>.secure-menu>summary{width:42px!important;height:42px!important;border:2px solid var(--ink)!important;border-radius:50%!important;background:var(--yellow)!important;box-shadow:none!important}
+.top-actions svg,.secure-menu summary svg{width:25px;height:25px}
+.secure-panel{border:1.5px solid var(--ink)!important;border-radius:0!important;box-shadow:4px 4px 0 var(--ink)!important}
+.agenda-item{display:grid!important;grid-template-columns:76px minmax(0,1fr) 58px!important;align-items:center!important;gap:14px!important;padding:16px!important;background:var(--coral)!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:var(--ink)!important}
+.agenda-item.holiday-item{background:var(--yellow)!important}
+.agenda-item.association-item{background:var(--lila)!important}
+.agenda-item:has(.event-category:not(.holiday-category):not(.association-category)){background:var(--paper)!important}
+.agenda-date,.agenda-date.holiday-date,.agenda-date.association-date,.agenda-date:not(.holiday-date){min-height:76px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;padding:8px 4px!important;background:rgba(255,255,255,.52)!important;border:0!important;border-radius:0!important;color:var(--ink)!important;text-align:center!important}
+.agenda-date b{font:700 29px/1 Fredoka,sans-serif!important;color:var(--ink)!important}
+.agenda-date small{font:700 13px/1 Inter,sans-serif!important;color:var(--ink)!important;text-transform:uppercase}
+.agenda-item>div:nth-child(2){min-width:0!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:5px!important}
+.agenda-item strong{display:block!important;margin:0!important;color:var(--ink)!important;font:700 22px/1.08 Fredoka,sans-serif!important;overflow-wrap:anywhere}
+.agenda-item p{margin:0!important;color:var(--ink)!important;font:14px/1.35 Inter,sans-serif!important;opacity:.82}
+.event-category,.event-category.holiday-category,.event-category.association-category,.event-category:not(.holiday-category){display:inline-block!important;margin:0!important;padding:5px 9px!important;background:rgba(255,255,255,.58)!important;border:0!important;border-radius:0!important;color:var(--ink)!important;font:700 12px/1.2 Fredoka,sans-serif!important}
+.agenda-doodle{width:54px!important;height:54px!important;display:grid!important;place-items:center!important;align-self:center!important;justify-self:center!important}
+.agenda-doodle svg{width:100%!important;height:100%!important;overflow:visible}
+.calendar-day.has-event,.calendar-day.has-school-event{background:var(--coral)!important;color:var(--ink)!important}
+.calendar-day.has-holiday{background:var(--yellow)!important;color:var(--ink)!important}
+.calendar-day.has-association-event{background:var(--lila)!important;color:var(--ink)!important}
+.calendar-day.has-holiday.has-school-event{background:linear-gradient(135deg,var(--yellow) 0 50%,var(--coral) 50% 100%)!important;color:var(--ink)!important}
+.calendar-day.selected,.calendar-day.selected.has-holiday,.calendar-day.selected.has-school-event,.calendar-day.selected.has-association-event{background:var(--lila)!important;color:var(--ink)!important;box-shadow:inset 0 0 0 2px var(--ink)!important}
+.calendar-day.has-event:after{background:var(--ink)!important}
+.calendar-legend .holiday-legend i{background:var(--yellow)!important;border:1px solid var(--ink)}
+.calendar-legend .association-legend i{background:var(--lila)!important}
+.calendar-legend i{background:var(--coral)!important}
+@media(max-width:600px){
+ .top{height:78px!important;min-height:78px!important;padding:7px 10px!important;gap:7px!important}
+ .brand .school-logo{width:94px!important;height:62px!important;max-width:94px!important}
+ .beta-label{gap:5px!important;padding:5px 7px!important;font-size:10px!important}
+ .beta-label .build-number{font-size:10px!important}
+ .top-actions{gap:5px!important}
+ .top-actions>button,.top-actions>.secure-menu>summary{width:38px!important;height:38px!important}
+ .top-actions svg,.secure-menu summary svg{width:23px;height:23px}
+ .agenda-item{grid-template-columns:58px minmax(0,1fr) 42px!important;gap:9px!important;padding:11px!important}
+ .agenda-date{min-height:66px!important}
+ .agenda-date b{font-size:24px!important}
+ .agenda-item strong{font-size:19px!important}
+ .agenda-item p{font-size:13px!important}
+ .agenda-doodle{width:40px!important;height:40px!important}
+}
+@media(max-width:370px){
+ .brand .school-logo{width:80px!important;max-width:80px!important}
+ .top{gap:5px!important;padding-left:8px!important;padding-right:8px!important}
+ .beta-label{font-size:9px!important;padding:4px 5px!important}
+ .top-actions>button,.top-actions>.secure-menu>summary{width:34px!important;height:34px!important}
+}
