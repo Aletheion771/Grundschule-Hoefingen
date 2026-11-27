@@ -215,3 +215,68 @@ footer a{border-bottom:2px solid var(--coral);text-decoration:none}
  .top .top-actions{margin-top:3px;gap:5px}
  .top .top-actions>button,.top .top-actions>.secure-menu>summary{width:34px;height:34px}
 }
+
+/* Build 103 — finale Header-, Link- und Installationskorrekturen */
+.top{
+ height:82px!important;min-height:82px!important;padding:7px 12px!important;
+ background:var(--paper)!important;border:0!important;border-bottom:0!important;
+ box-shadow:none!important;outline:0!important
+}
+.brand{height:100%!important;flex:0 1 auto!important;justify-content:flex-start!important;min-width:0!important}
+.brand .school-logo{
+ display:block!important;width:190px!important;height:64px!important;max-width:45vw!important;
+ object-fit:contain!important;object-position:left center!important;background:transparent!important;
+ border:0!important;box-shadow:none!important
+}
+.beta-label{
+ position:absolute!important;left:50%!important;transform:translateX(-50%)!important;
+ margin:0!important;padding:5px 8px!important;border:0!important;border-radius:999px!important;
+ background:var(--yellow)!important;color:var(--ink)!important;
+ font:600 10px/1.2 Inter,sans-serif!important;box-shadow:none!important
+}
+.beta-label .build-number{color:var(--ink)!important;font-weight:800!important}
+.top-actions{gap:6px!important;margin-left:auto!important}
+.top-actions>button,.top-actions>.secure-menu>summary{
+ width:36px!important;height:36px!important;padding:0!important;
+ border:0!important;border-radius:50%!important;background:var(--yellow)!important;
+ box-shadow:none!important;outline:0!important
+}
+.top-actions svg,.secure-menu summary svg{width:24px!important;height:24px!important}
+.secure-panel{border:0!important;box-shadow:0 5px 18px rgba(20,20,20,.14)!important}
+.install-help{
+ margin:18px 0!important;padding:12px 0!important;
+ border:0!important;border-top:0!important;border-bottom:0!important;
+ border-radius:0!important;background:transparent!important;box-shadow:none!important
+}
+.install-help summary{border:0!important;outline:0!important;box-shadow:none!important;color:var(--ink)!important}
+.install-help>div,.install-help p{color:var(--ink)!important}
+.news-feed article,.news-feed article.past{opacity:1!important}
+.news-feed article .meta,.news-feed article .meta time,.news-feed article .meta span{
+ color:var(--ink)!important;opacity:1!important
+}
+.news-feed article h3,.news-feed article .news-content h3,
+.news-feed article p,.news-feed article .news-content p,
+.news-feed article a,.news-feed article .news-content a,
+.news-feed article .news-state,.news-feed article .news-state *{
+ color:var(--ink)!important;opacity:1!important
+}
+.news-feed article a,.news-feed article .news-content a{
+ border-color:var(--coral)!important;text-decoration:none!important;
+ text-decoration-color:var(--coral)!important
+}
+.section-link,.section-link:visited,.news-content a:visited,
+.news-feed article a:visited,.info-card a,.info-card a:visited,
+.document-link-list a,.document-open a,.fv-links a{
+ color:var(--ink)!important
+}
+.section-link{border-color:var(--coral)!important}
+.news-state{background:var(--yellow)!important;color:var(--ink)!important}
+@media(max-width:600px){
+ .top{height:78px!important;min-height:78px!important;padding:6px 9px!important;gap:4px!important}
+ .brand .school-logo{width:150px!important;height:58px!important;max-width:43vw!important}
+ .beta-label{font-size:9px!important;padding:5px 6px!important}
+ .beta-label .build-number{font-size:9px!important}
+ .top-actions{gap:4px!important}
+ .top-actions>button,.top-actions>.secure-menu>summary{width:34px!important;height:34px!important}
+ .top-actions svg,.secure-menu summary svg{width:22px!important;height:22px!important}
+}
