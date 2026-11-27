@@ -96,3 +96,22 @@ footer{padding:24px 18px 20px;text-align:center;color:var(--ink);font:12px/1.5 I
  .agenda-item{grid-template-columns:68px minmax(0,1fr);gap:11px;padding:12px;border-radius:14px}.agenda-date{min-height:68px}.agenda-date b{font-size:25px}.agenda-item strong{font-size:19px}.agenda-item p{font-size:13px}
  nav[aria-label="Hauptnavigation"] a{min-height:62px;border-radius:16px}nav[aria-label="Hauptnavigation"] svg{width:27px;height:27px}
 }
+
+:root[data-theme="dark"]{color-scheme:light;--coral:#F1705A;--yellow:#FFE35C;--lila:#B89CF1;--paper:#F6F0E2;--ink:#141414;--white:#F6F0E2}
+.care-feature,.care-contact,.care-hours,.care-holiday,.fv-brand,.fv-fee-panel,.fv-activities-list>div,.fv-contact,.schedule-notice,.day-card,.period-block{background:var(--paper)!important;color:var(--ink)!important;border:1px solid var(--ink)!important;border-radius:12px!important;box-shadow:none!important}
+.care-feature:nth-of-type(odd),.fv-activities-list>div:nth-child(3n+1),.day-card:nth-child(3n+1){background:var(--lila)!important}
+.care-feature:nth-of-type(even),.fv-activities-list>div:nth-child(3n+2),.day-card:nth-child(3n+2){background:var(--coral)!important}
+.care-feature:nth-of-type(3n),.fv-activities-list>div:nth-child(3n),.day-card:nth-child(3n){background:var(--yellow)!important}
+.care-feature h3,.care-contact h3,.care-hours h3,.care-holiday h3,.fv-activities-list b,.fv-fee-panel strong,.fv-contact strong,.schedule-item summary,.day-card h4{font:700 20px/1.1 Fredoka,sans-serif!important;color:var(--ink)!important}
+.care-feature p,.care-contact p,.care-hours span,.care-holiday p,.fv-activities-list p,.schedule-notice p,.day-card-note{color:var(--ink)!important;font:14px/1.45 Inter,sans-serif!important}
+.care-icon{display:none!important}.care-time,.care-time-list,.period-block strong{color:var(--ink)!important;font-family:Fredoka,sans-serif!important}
+.care-paid,.care-phone,.schedule-source,.fv-homepage-link,.fv-fee-panel a{display:inline-block;padding:7px 12px;border:0;border-radius:999px;background:var(--yellow)!important;color:var(--ink)!important;font:700 13px Fredoka,sans-serif!important;text-decoration:none}
+.care-phone.secondary{background:var(--lila)!important}.care-holiday,.fv-fee-panel{background:var(--yellow)!important}
+.fv-activities-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.fv-activities-list>div{padding:12px!important}.fv-brand img{max-width:72px;object-fit:contain}
+.schedule-item{overflow:hidden}.schedule-item>summary{padding:13px 15px;background:var(--lila);cursor:pointer}.schedule-item:nth-of-type(even)>summary{background:var(--yellow)}
+.schedule-content{padding:10px}.week-grid,.day-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.period-block{padding:9px!important;margin:6px 0!important}.period-block small{color:var(--ink)!important;font:700 10px Inter,sans-serif!important}
+.info-note,.source-sync-status,.fv-sync-status,.translation-note{color:var(--ink)!important;font:13px/1.4 Inter,sans-serif!important}.info-card hr{border:0;border-top:1px solid var(--ink)}
+.info-card a:not(.info-call),.fv-contact a{color:var(--ink)!important;text-decoration-thickness:2px;text-decoration-color:var(--coral)}
+.document-item summary{font-family:Fredoka,sans-serif!important;color:var(--ink)!important}.document-open a{display:inline-block;padding:8px 11px;background:var(--yellow);border-radius:999px;color:var(--ink)!important;font:700 13px Fredoka,sans-serif!important}
+.calendar-loading,.calendar-empty{color:var(--ink)!important}
+@media(max-width:600px){.welcome-copy{width:66%}.welcome-signet{right:0;top:14%;width:34%;height:74%}.welcome h1{font-size:clamp(31px,8vw,46px)}}
