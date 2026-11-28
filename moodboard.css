@@ -484,3 +484,8 @@ a[target="_blank"]:not(.more-link):hover{color:var(--ink)!important}
 #agenda-list>.agenda-item strong{display:block!important;white-space:normal!important;overflow-wrap:anywhere!important;font:700 19px/1.12 Fredoka,sans-serif!important}
 #agenda-list>.agenda-item p{margin:0!important;font:13px/1.35 Inter,sans-serif!important;overflow-wrap:anywhere!important}
 @media(max-width:600px){.welcome{aspect-ratio:657/182!important}#agenda-list>.agenda-item{grid-template-columns:58px minmax(0,1fr)!important}}
+
+/* Build 110 — banner proportions and artwork aligned with the supplied reference */
+.welcome{aspect-ratio:3/1!important;background:#ffe35c!important}
+.welcome:before{background-image:url("./pflicht-spass-banner.svg")!important;background-size:100% 100%!important}
+@media(max-width:600px){.welcome{aspect-ratio:3/1!important}}
