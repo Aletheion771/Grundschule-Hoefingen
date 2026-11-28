@@ -65,6 +65,24 @@ function parseSchoolEvents(html){
  const norm=s=>(s||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
  function yearFor(month){if(activeMonth!==null)return month<activeMonth-6?activeYear+1:month>activeMonth+6?activeYear-1:activeYear;const now=new Date(),cm=now.getMonth();return month<cm-6?now.getFullYear()+1:month>cm+6?now.getFullYear()-1:now.getFullYear()}
  function add(day,month,year,title,endDay=null,endMonth=null){const first=makeDate(day,month,year),last=endDay===null?first:makeDate(endDay,endMonth,endMonth<month?year+1:year);title=norm(title).replace(/^[|,:;–—-]\s*/,'');if(first&&last&&last>=first&&title)found.push({start:first,end:last,title,source:'Schulhomepage'})}
+ // Prefer explicit weekday/date boundaries over paragraph structure: the school CMS
+ // sometimes concatenates multiple calendar entries inside a single paragraph.
+ const allText=norm(root.textContent);
+ const marker=/(?:^|\s)(Mo|Di|Mi|Do|Fr|Sa|So|Die)\.?\s+(\d{1,2})\.(\d{1,2})\.(?:(20\d{2})\b)?/gi;
+ const marks=[...allText.matchAll(marker)];
+ if(marks.length){
+  for(let i=0;i<marks.length;i++){
+   const x=marks[i],day=Number(x[2]),month=Number(x[3])-1;
+   if(month<0||month>11)continue;
+   const year=x[4]?Number(x[4]):yearFor(month);
+   const from=x.index+x[0].lastIndexOf(x[1]);
+   const to=i+1<marks.length?marks[i+1].index+marks[i+1][0].lastIndexOf(marks[i+1][1]):allText.length;
+   const title=allText.slice(from+x[0].slice(x[0].lastIndexOf(x[1])).match(/^(?:Mo|Di|Mi|Do|Fr|Sa|So|Die)\.?\s+\d{1,2}\.\d{1,2}\.(?:20\d{2})?/)[0].length,to).replace(/\s+/g,' ').trim();
+   if(title)add(day,month,year,title);
+  }
+  const unique=new Map();for(const e of found)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);
+  return [...unique.values()].sort((a,b)=>a.start-b.start);
+ }
  const monthRx=/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+(20\d{2}))?$/i;
  const dateOnly=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.(\d{1,2})\.(?:(20\d{2})\.?)?$/i;
  const dateAtStart=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.(\d{1,2})\.(?:(20\d{2})\.?)?\s*(.*)$/i;
