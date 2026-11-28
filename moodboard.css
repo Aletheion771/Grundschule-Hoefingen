@@ -474,3 +474,13 @@ a[target="_blank"]:not(.more-link):hover{color:var(--ink)!important}
 #agenda-list>.agenda-item>div:nth-child(2){min-width:0!important;overflow-wrap:anywhere!important}
 #agenda-list>.agenda-item strong{white-space:normal!important;overflow-wrap:anywhere!important}
 @media(max-width:600px){.welcome{aspect-ratio:3/1!important}#agenda-list>.agenda-item{grid-template-columns:58px minmax(0,1fr) 38px!important;gap:8px!important;padding:10px!important}}
+
+/* Build 109 — original Moodboard banner art, only the left lettering is enlarged */
+.welcome{aspect-ratio:657/182!important;background:#ffe978!important}
+.welcome:before{background-image:url("./pflicht-spass-banner.svg")!important;background-size:100% 100%!important}
+#agenda-list{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+#agenda-list>.agenda-item{display:grid!important;grid-template-columns:58px minmax(0,1fr) 38px!important;align-items:center!important;gap:9px!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;overflow:hidden!important;padding:12px!important}
+#agenda-list>.agenda-item>div:nth-child(2){min-width:0!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:5px!important;overflow-wrap:anywhere!important}
+#agenda-list>.agenda-item strong{display:block!important;white-space:normal!important;overflow-wrap:anywhere!important;font:700 19px/1.12 Fredoka,sans-serif!important}
+#agenda-list>.agenda-item p{margin:0!important;font:13px/1.35 Inter,sans-serif!important;overflow-wrap:anywhere!important}
+@media(max-width:600px){.welcome{aspect-ratio:657/182!important}#agenda-list>.agenda-item{grid-template-columns:58px minmax(0,1fr)!important}}
