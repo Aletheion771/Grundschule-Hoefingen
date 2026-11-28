@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect width="1200" height="400" fill="#ffe35c"/><g stroke="#141414" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><path d="M56 96c9-29 54-41 79-19 20 18 16 53-4 68-23 17-64 8-77-15-8-14-6-25 2-34z" fill="#b89cf1"/><path d="M45 77c-8-25 20-46 48-38 28-8 58 16 56 46-2 23-22 41-47 41-31 0-58-20-57-49z" fill="none"/><ellipse cx="92" cy="177" rx="14" ry="24" fill="#fbf8f1"/></g><g fill="#141414" font-family="Arial Rounded MT Bold,Trebuchet MS,sans-serif" font-weight="900" text-anchor="middle"><text x="650" y="180" font-size="142" letter-spacing="-5">PFLICHT &amp;</text><text x="650" y="340" font-size="166" letter-spacing="-6">SPASS</text></g><path d="M1035 285c-35-43-90 3-37 52l37 33 37-33c53-49-2-95-37-52z" fill="#f1705a" stroke="#141414" stroke-width="9"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 657 228">
+<rect width="657" height="228" fill="#f6f0e2"/>
+<rect x="9" y="27" width="618" height="182" fill="#ffe978"/>
+<g fill="#141414" font-family="Fredoka,'Arial Rounded MT Bold',sans-serif" font-weight="700" letter-spacing="-1.8">
+<text x="25" y="91" font-size="43">PFLICHT</text>
+<text x="25" y="140" font-size="47">SPASS.</text>
+</g>
+<path d="M22 78 Q92 73 178 79" fill="none" stroke="#f1705a" stroke-width="7" stroke-linecap="round" opacity=".9"/>
+<!-- Original Ö character: two small eyes above a rounded lilac body, with the yellow inner oval -->
+<g stroke="#141414" stroke-linecap="round" stroke-linejoin="round">
+<path d="M452 63 Q460 51 476 59" fill="none" stroke-width="3"/>
+<path d="M495 68 Q503 63 510 69" fill="none" stroke-width="3"/>
+<ellipse cx="468" cy="77" rx="8" ry="12" transform="rotate(22 468 77)" fill="#141414" stroke-width="1"/>
+<ellipse cx="507" cy="78" rx="5" ry="8" transform="rotate(22 507 78)" fill="#141414" stroke-width="1"/>
+<path d="M443 102 Q454 83 475 88 Q504 90 511 115 Q520 145 501 174 Q483 199 458 185 Q438 173 438 145 Q437 120 443 102Z" fill="#b89ccf" stroke="none"/>
+<path d="M438 105 Q449 85 475 88 Q504 90 511 115 Q520 145 501 174 Q483 199 458 185 Q438 173 438 145 Q437 120 438 105Z" fill="none" stroke="#b89ccf" stroke-width="2"/>
+<path d="M466 134 Q474 123 480 132 Q486 143 477 153 Q468 160 464 150 Q461 142 466 134Z" fill="#ffe978" stroke="#141414" stroke-width="2.8"/>
+<path d="M557 68 l4 -9 m12 12 8 -6 m-4 19 10 2 m-18 9 2 10 m-17 -12 -7 7 m-3 -18 -9 -3" fill="none" stroke="#141414" stroke-width="2.5"/>
+<circle cx="576" cy="80" r="8" fill="#f6b39e" stroke="#141414" stroke-width="2.5"/>
+<path d="M561 151 l5 10 11 1 -8 7 2 11 -10 -6 -9 6 2 -11 -8 -7 11 -1Z" fill="none" stroke="#141414" stroke-width="2.5" stroke-linejoin="round"/>
+</g></svg>
