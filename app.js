@@ -61,73 +61,29 @@ function parseSchoolEvents(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
  const root=doc.querySelector('.entry-content,.page-content,main,article')||doc.body;
  const found=[],monthNames=['januar','februar','märz','april','mai','juni','juli','august','september','oktober','november','dezember'];
- let activeMonth=null,activeYear=new Date().getFullYear(),previousMonth=new Date().getMonth();
+ let activeMonth=null,activeYear=new Date().getFullYear(),previousMonth=new Date().getMonth(),pending=null;
  const norm=s=>(s||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
- function yearFor(month){
-  if(activeMonth!==null)return month<activeMonth-6?activeYear+1:month>activeMonth+6?activeYear-1:activeYear;
-  const now=new Date(),cm=now.getMonth();
-  return month<cm-6?now.getFullYear()+1:month>cm+6?now.getFullYear()-1:now.getFullYear();
- }
- function add(day,month,year,title,endDay=null,endMonth=null){
-  const first=makeDate(day,month,year),last=endDay===null?first:makeDate(endDay,endMonth,endMonth<month?year+1:year);
-  title=norm(title).replace(/^[|,:;–—-]\s*/,'');
-  if(first&&last&&last>=first&&title)found.push({start:first,end:last,title,source:'Schulhomepage'});
- }
+ function yearFor(month){if(activeMonth!==null)return month<activeMonth-6?activeYear+1:month>activeMonth+6?activeYear-1:activeYear;const now=new Date(),cm=now.getMonth();return month<cm-6?now.getFullYear()+1:month>cm+6?now.getFullYear()-1:now.getFullYear()}
+ function add(day,month,year,title,endDay=null,endMonth=null){const first=makeDate(day,month,year),last=endDay===null?first:makeDate(endDay,endMonth,endMonth<month?year+1:year);title=norm(title).replace(/^[|,:;–—-]\s*/,'');if(first&&last&&last>=first&&title)found.push({start:first,end:last,title,source:'Schulhomepage'})}
  const monthRx=/^(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+(20\d{2}))?$/i;
  const dateOnly=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.(\d{1,2})\.(?:(20\d{2})\.?)?$/i;
  const dateAtStart=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.(\d{1,2})\.(?:(20\d{2})\.?)?\s*(.*)$/i;
  const rangeRx=/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[–—-]\s*(\d{1,2})\.(?:\s*(\d{1,2})\.)?\s*(?:\|\s*)?(.*)$/i;
- // First pass: preserve headings and parse complete text rows (e.g. "Di 03.11. | Elternabend 0").
- const blocks=[...root.querySelectorAll('h1,h2,h3,h4,p,li,tr')];
- for(const el of blocks){
-  // A table row is the unit of truth; do not parse its nested cells/paragraphs again.
-  if(el.tagName!=='TR' && el.closest('tr'))continue;
-  const line=norm(el.tagName==='TR'?[...el.querySelectorAll('th,td')].map(cell=>norm(cell.textContent)).join(' | '):el.textContent);if(!line)continue;
-  const mh=line.match(monthRx);
-  if(mh){activeMonth=monthNames.indexOf(mh[1].toLowerCase());if(mh[2])activeYear=Number(mh[2]);else if(activeMonth<previousMonth-6)activeYear++;previousMonth=activeMonth;continue}
-  const range=line.match(rangeRx);
-  if(range&&activeMonth!==null){const em=range[3]!==undefined?Number(range[3])-1:activeMonth;add(Number(range[1]),activeMonth,yearFor(activeMonth),range[4],Number(range[2]),em);continue}
-  const m=line.match(dateAtStart);
-  if(m){const month=Number(m[2])-1;if(month>=0&&month<12&&m[4].trim()){const y=m[3]?Number(m[3]):yearFor(month);add(Number(m[1]),month,y,m[4]);}}
-  else if(activeMonth!==null){
-   const one=line.match(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[|]?\s*(.+)$/i);
-   // Do not mistake clock values like "18.30 Uhr" for day/month entries.
-   if(one && !/^\d{1,2}\s*Uhr\b/i.test(one[2]) && !/^\d{1,2}:\d{2}\s*Uhr\b/i.test(one[2]))add(Number(one[1]),activeMonth,yearFor(activeMonth),one[2]);
-  }
+ function parseLine(raw){const line=norm(raw);if(!line)return;const mh=line.match(monthRx);if(mh){pending=null;activeMonth=monthNames.indexOf(mh[1].toLowerCase());if(mh[2])activeYear=Number(mh[2]);else if(activeMonth<previousMonth-6)activeYear++;previousMonth=activeMonth;return}
+  const range=line.match(rangeRx);if(range&&activeMonth!==null){const em=range[3]!==undefined?Number(range[3])-1:activeMonth;add(Number(range[1]),activeMonth,yearFor(activeMonth),range[4],Number(range[2]),em);pending=null;return}
+  const m=line.match(dateAtStart);if(m){const month=Number(m[2])-1;if(month>=0&&month<12){const y=m[3]?Number(m[3]):yearFor(month),title=norm(m[4]);if(title)add(Number(m[1]),month,y,title);else pending={day:Number(m[1]),month,year:y}}return}
+  if(pending){add(pending.day,pending.month,pending.year,line);pending=null;return}
+  if(activeMonth!==null){const one=line.match(/^(?:(?:Mo|Di|Mi|Do|Fr|Sa|So)\.?\s*)?(\d{1,2})\.\s*[|]?\s*(.+)$/i);if(one&&!/^\d{1,2}\s*Uhr\b/i.test(one[2])&&!/^\d{1,2}:\d{2}\s*Uhr\b/i.test(one[2]))add(Number(one[1]),activeMonth,yearFor(activeMonth),one[2])}
  }
- // Second pass: on the school page, weekday/date and event text are sometimes separate
- // columns in the same visual row rather than one paragraph/list item.
- const seen=new Set(found.map(e=>dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title));
- for(const el of root.querySelectorAll('*')){
-  if(el.closest('tr')||['TD','TH'].includes(el.tagName))continue;
-  const txt=norm(el.textContent);if(!txt||txt.length>100)continue;
-  const m=txt.match(dateOnly);if(!m)continue;
-  const month=Number(m[2])-1;if(month<0||month>11)continue;
-  const dateNode=el;
-  let siblings=[...dateNode.parentElement.children].filter(x=>x!==dateNode).map(x=>norm(x.textContent)).filter(Boolean);
-  let title=siblings.join(' ');
-  if(!title){
-   const parent=dateNode.parentElement;
-   if(parent){const children=[...parent.children];const idx=children.indexOf(dateNode);title=norm(children[idx+1]?.textContent||'');}
-  }
-  if(!title)continue;
-  const year=m[3]?Number(m[3]):yearFor(month);
-  const key=dayKey(makeDate(Number(m[1]),month,year)||new Date(0))+'|'+title;
-  if(seen.has(key))continue;
-  add(Number(m[1]),month,year,title);
-  seen.add(key);
+ // Preserve line breaks: WordPress may place many different dates inside one paragraph.
+ for(const el of root.querySelectorAll('h1,h2,h3,h4,p,li,tr')){
+  if(el.tagName!=='TR'&&el.closest('tr'))continue;
+  if(el.tagName==='LI'&&el.querySelector('p,ul,ol'))continue;
+  if(el.tagName==='TR'){const cells=[...el.querySelectorAll(':scope > th,:scope > td')].map(c=>norm(c.textContent));if(cells.length>1){const m=cells[0].match(dateAtStart);if(m){const month=Number(m[2])-1;if(month>=0&&month<12)add(Number(m[1]),month,m[3]?Number(m[3]):yearFor(month),[m[4],...cells.slice(1)].filter(Boolean).join(' · '))}else cells.forEach(parseLine)}else parseLine(cells.join(' '));continue}
+  const htmlLines=el.innerHTML.replace(/<br\s*\/?\s*>/gi,'\n').replace(/<\/(?:p|div|li|h[1-6])\s*>/gi,'\n');
+  const temp=doc.createElement('div');temp.innerHTML=htmlLines;temp.textContent.split(/\n+/).map(norm).filter(Boolean).forEach(parseLine);
  }
- // Table rows with separate date and description cells.
- for(const row of root.querySelectorAll('tr')){
-  const cells=[...row.querySelectorAll('th,td')].map(c=>norm(c.textContent));
-  if(cells.length<2)continue;
-  const m=cells[0].match(dateAtStart);if(!m)continue;
-  const month=Number(m[2])-1;if(month<0||month>11)continue;
-  add(Number(m[1]),month,m[3]?Number(m[3]):yearFor(month),[m[4],...cells.slice(1)].filter(Boolean).join(' · '));
- }
- const unique=new Map();
- for(const e of found)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);
- return [...unique.values()].sort((a,b)=>a.start-b.start);
+ const unique=new Map();for(const e of found)unique.set(dayKey(e.start)+'|'+dayKey(e.end)+'|'+e.title,e);return [...unique.values()].sort((a,b)=>a.start-b.start)
 }
 function officialCareEvents(){
  const specs=[

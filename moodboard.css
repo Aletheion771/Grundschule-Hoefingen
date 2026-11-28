@@ -465,3 +465,12 @@ a[target="_blank"]:not(.more-link):hover{color:var(--ink)!important}
 
 /* The Pflicht/Spaß artwork belongs exclusively to the Start view. */
 .welcome[hidden]{display:none!important}
+
+/* Build 108 — more prominent Pflicht & Spaß banner and stable one-event-per-card layout */
+.welcome{aspect-ratio:3/1!important;background:#ffe35c!important}
+.welcome:before{background-image:url("./pflicht-spass-banner.svg")!important;background-size:100% 100%!important}
+#agenda-list{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+#agenda-list>.agenda-item{display:grid!important;grid-template-columns:58px minmax(0,1fr) 42px!important;align-items:center!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;overflow:hidden!important}
+#agenda-list>.agenda-item>div:nth-child(2){min-width:0!important;overflow-wrap:anywhere!important}
+#agenda-list>.agenda-item strong{white-space:normal!important;overflow-wrap:anywhere!important}
+@media(max-width:600px){.welcome{aspect-ratio:3/1!important}#agenda-list>.agenda-item{grid-template-columns:58px minmax(0,1fr) 38px!important;gap:8px!important;padding:10px!important}}
